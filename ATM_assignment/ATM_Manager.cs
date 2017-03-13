@@ -11,8 +11,11 @@ using System.Windows.Forms;
 
 namespace ATM_assignment
 {
+	public delegate void UpdateNumberOfATMs(int asd);
 	public partial class ATM_Manager : Form
 	{
+		public event EventHandler ATMDisconnected;
+
 		private int numOfATMAvailable;
 
 		Bank bank;
@@ -49,22 +52,30 @@ namespace ATM_assignment
 				numOfATMAvailable--;
 				AvailableATMNumber.Text = numOfATMAvailable.ToString();
 
-
-				//this block of code doesn't work, i'm in the process of figuring out how we should do it using multi-threading
-				ThreadStart temp = new ThreadStart(atmThread);
-				Thread atm = new Thread(temp);
-				atm.Start();
+				UpdateNumberOfATMs temp = new UpdateNumberOfATMs(addAvailableATM);
+				Thread atm = new Thread(new ParameterizedThreadStart(atmThread));
+				atm.Start(temp);
+				
 				ATMs.Add(atm);
+				//Console.WriteLine("asd");
 			}
 		}
 
-		private void atmThread()
+		private void atmThread(object atmUpdater)
 		{
-			ATM ATM = new ATM();
-			ATM.Show();
-
-
+			ATM ATM = new ATM((UpdateNumberOfATMs)atmUpdater);
+			Application.Run(ATM);
+			//numOfATMAvailable++;
 		}
+
+		private void addAvailableATM(int asd)
+		{
+			Console.WriteLine(asd);
+			numOfATMAvailable++;
+			AvailableATMNumber.Text = numOfATMAvailable.ToString();
+		}
+
+
 
 
 	}
