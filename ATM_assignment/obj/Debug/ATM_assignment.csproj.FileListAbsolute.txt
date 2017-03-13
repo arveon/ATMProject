@@ -1,0 +1,10 @@
+c:\users\arveon\documents\visual studio 2015\Projects\ATM_assignment\ATM_assignment\bin\Debug\ATM_assignment.exe.config
+c:\users\arveon\documents\visual studio 2015\Projects\ATM_assignment\ATM_assignment\obj\Debug\ATM_assignment.csprojResolveAssemblyReference.cache
+c:\users\arveon\documents\visual studio 2015\Projects\ATM_assignment\ATM_assignment\obj\Debug\ATM_assignment.ATM_Manager.resources
+c:\users\arveon\documents\visual studio 2015\Projects\ATM_assignment\ATM_assignment\obj\Debug\ATM_assignment.Properties.Resources.resources
+c:\users\arveon\documents\visual studio 2015\Projects\ATM_assignment\ATM_assignment\obj\Debug\ATM_assignment.csproj.GenerateResource.Cache
+c:\users\arveon\documents\visual studio 2015\Projects\ATM_assignment\ATM_assignment\bin\Debug\ATM_assignment.exe
+c:\users\arveon\documents\visual studio 2015\Projects\ATM_assignment\ATM_assignment\bin\Debug\ATM_assignment.pdb
+c:\users\arveon\documents\visual studio 2015\Projects\ATM_assignment\ATM_assignment\obj\Debug\ATM_assignment.exe
+c:\users\arveon\documents\visual studio 2015\Projects\ATM_assignment\ATM_assignment\obj\Debug\ATM_assignment.pdb
+c:\users\arveon\documents\visual studio 2015\Projects\ATM_assignment\ATM_assignment\obj\Debug\ATM_assignment.ATM.resources
