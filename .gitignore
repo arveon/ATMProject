@@ -292,3 +292,4 @@ __pycache__/
 *.xsd.cs
 
 ATM_assignment/obj/
+ATM_assignment/obj
