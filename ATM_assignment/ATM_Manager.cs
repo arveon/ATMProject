@@ -84,7 +84,12 @@ namespace ATM_assignment
 				BankAccounts.DataSource = bank.getAccounts();
 
 			}));
-			
-		}
+
+        }
+
+        private void BankAccounts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
 	}
 }
