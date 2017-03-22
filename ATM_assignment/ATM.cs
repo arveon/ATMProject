@@ -20,7 +20,7 @@ namespace ATM_assignment
 
 		Bank bank;
 
-		private Point offsetPoint = new Point(0,0);
+		private Point offsetPoint = new Point(20,250);
 		private int numpadMargin = 5;
 		private Size numpadButtonDimension = new Size(50,50);
 
@@ -29,14 +29,16 @@ namespace ATM_assignment
 			AccountUpdated = updater;
 			this.bank = bank;
 
+			//create keypad buttons
 			numpad = new List<Button>();
+			int buttonCounter = 1;
 			for(int i = 0; i < 3; i++)
 			{
 				for(int j = 0; j < 3; j++)
 				{
 					Button button = new Button();
-					button.Bounds = new Rectangle(new Point(offsetPoint.X + (i*(numpadButtonDimension.Width+numpadMargin)), offsetPoint.Y + (j * (numpadButtonDimension.Height + numpadMargin))), numpadButtonDimension);
-					button.Text = ((i * j) + 1).ToString();
+					button.Bounds = new Rectangle(new Point(offsetPoint.X + (j*(numpadButtonDimension.Width+numpadMargin)), offsetPoint.Y + (i * (numpadButtonDimension.Height + numpadMargin))), numpadButtonDimension);
+					button.Text = (buttonCounter++).ToString();
 					button.Click += (source, args) =>
 						{
 							bank.DoAction(ATMAction.WithdrawMoney, 10, 111111);
@@ -46,12 +48,6 @@ namespace ATM_assignment
 					Controls.Add(button);
 				}
 			}
-
-			//this.FormClosed += (sender, eventArgs) =>
-			//{
-			//	//_disconnected(123);
-			//};
-
 			InitializeComponent();
 		}
 
