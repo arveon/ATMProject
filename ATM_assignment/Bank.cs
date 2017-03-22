@@ -6,9 +6,17 @@ using System.Threading.Tasks;
 
 namespace ATM_assignment
 {
+	public enum ATMAction
+	{
+		WithdrawMoney,
+		InsertMoney,
+		ChangePin
+	}
+
+
 	//basically serves as a container for bank accounts
 	//allows managing existing bank accounts
-	class Bank
+	public class Bank
 	{
 		public List<BankAccount> AccountList { get; private set; }
 
@@ -41,6 +49,46 @@ namespace ATM_assignment
 					break;
 				}
 			}
+			return result;
+		}
+
+		public bool DoAction(ATMAction action, int argument, int accountNumber)
+		{
+			bool result = false;
+
+			BankAccount curAcc = null;
+			foreach(BankAccount ac in AccountList)
+			{
+				if (ac.AccountNumber == accountNumber)
+				{
+					curAcc = ac;
+					break;
+				}
+			}
+
+			if (curAcc == null)
+				return result;
+
+			switch(action)
+			{
+				case ATMAction.ChangePin:
+					if (argument > 9999)
+					{
+						result = false;
+						break;
+					}
+
+					curAcc.CardPin = argument;
+					result = true;
+					break;
+				case ATMAction.InsertMoney:
+					result = curAcc.withdrawMoney(argument);
+					break;
+				case ATMAction.WithdrawMoney:
+					result = curAcc.withdrawMoney(argument);
+					break;
+			}
+
 			return result;
 		}
 

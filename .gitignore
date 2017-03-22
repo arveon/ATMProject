@@ -265,6 +265,10 @@ paket-files/
 
 # JetBrains Rider
 .idea/
+
+
+#ATM
+ATM_assignment/bin
 *.sln.iml
 
 # CodeRush
@@ -286,3 +290,6 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+ATM_assignment/obj/
+ATM_assignment/obj

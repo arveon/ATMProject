@@ -11,11 +11,8 @@ using System.Windows.Forms;
 
 namespace ATM_assignment
 {
-	//public delegate void UpdateNumberOfATMs(int asd);
 	public partial class ATM_Manager : Form
 	{
-		public event EventHandler ATMDisconnected;
-
 		private int numOfATMAvailable;
 
 		Bank bank;
@@ -62,14 +59,20 @@ namespace ATM_assignment
 
 		private void atmThread(object atmUpdater)
 		{
-			ATM ATM = new ATM();
+			ATM ATM = new ATM(bank);
 			Application.Run(ATM);
 
 			numOfATMAvailable++;
 			AvailableATMNumber.Invoke(new MethodInvoker(delegate
-			{
-				AvailableATMNumber.Text = numOfATMAvailable.ToString();
-			}));
+				{
+					AvailableATMNumber.Text = numOfATMAvailable.ToString();
+				}));
+
+			BankAccounts.Invoke(new MethodInvoker(delegate
+				{
+					BankAccounts.DataSource = bank.getAccounts();
+
+				}));
 			
 		}
 	}
