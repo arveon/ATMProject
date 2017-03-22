@@ -21,3 +21,6 @@ I:\C#Projects\ATM_assignment\ATM_assignment\obj\Debug\ATM_assignment.csproj.Gene
 C:\Users\TEMP.COMPUTING\Desktop\ATMProject\ATM_assignment\bin\Debug\ATM_assignment.exe.config
 C:\Users\TEMP.COMPUTING\Desktop\ATMProject\ATM_assignment\obj\Debug\ATM_assignment.exe
 C:\Users\TEMP.COMPUTING\Desktop\ATMProject\ATM_assignment\obj\Debug\ATM_assignment.pdb
+C:\Users\aleksejsloginovs\Desktop\ATMProject\ATM_assignment\bin\Debug\ATM_assignment.exe.config
+C:\Users\aleksejsloginovs\Desktop\ATMProject\ATM_assignment\obj\Debug\ATM_assignment.exe
+C:\Users\aleksejsloginovs\Desktop\ATMProject\ATM_assignment\obj\Debug\ATM_assignment.pdb

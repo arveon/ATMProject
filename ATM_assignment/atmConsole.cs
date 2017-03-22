@@ -15,7 +15,7 @@ namespace ConsoleApplication3
         private ATM atm;
        
         /*
-         * This fucntions initilises the 3 accounts 
+         * This function initilises the 3 accounts 
          * and instanciates the ATM class passing a referance to the account information
          * 
          */
@@ -34,7 +34,6 @@ namespace ConsoleApplication3
             new Program();
         }
     }
-
     /*
      *   The Account class encapusulates all features of a simple bank account
      */ 
@@ -81,7 +80,7 @@ namespace ConsoleApplication3
             }
             else
             {
-                return true;
+                return false;
             }
         }
 
@@ -109,7 +108,6 @@ namespace ConsoleApplication3
         }
 
     }
-
     /* 
      *      This is out main ATM class that preforms the actions outlined in the assigment hand out
      *      
@@ -127,7 +125,7 @@ namespace ConsoleApplication3
         public ATM(Account[] ac)
         {
             this.ac = ac;
-            Console.WriteLine("hello from ATM")
+            Console.WriteLine("hello from ATM");
 
             // an infanite loop to keep the flow of controll going on and on
             while (true)
@@ -209,7 +207,7 @@ namespace ConsoleApplication3
         {
             Console.WriteLine("1> take out cash");
             Console.WriteLine("2> balance");
-            Console.WriteLine("3> exsit");
+            Console.WriteLine("3> exit");
 
             int input = Convert.ToInt32(Console.ReadLine());
 
