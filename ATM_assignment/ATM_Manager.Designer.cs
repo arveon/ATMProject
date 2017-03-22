@@ -30,73 +30,74 @@ namespace ATM_assignment
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.AvailableATMText = new System.Windows.Forms.Label();
-			this.AvailableATMNumber = new System.Windows.Forms.Label();
-			this.CreateATM = new System.Windows.Forms.Button();
-			this.BankAccounts = new System.Windows.Forms.ListBox();
-			this.Exit = new System.Windows.Forms.Button();
-			this.SuspendLayout();
-			// 
-			// AvailableATMText
-			// 
-			this.AvailableATMText.AutoSize = true;
-			this.AvailableATMText.Location = new System.Drawing.Point(204, 32);
-			this.AvailableATMText.Name = "AvailableATMText";
-			this.AvailableATMText.Size = new System.Drawing.Size(84, 13);
-			this.AvailableATMText.TabIndex = 0;
-			this.AvailableATMText.Text = "Available ATMs:";
-			// 
-			// AvailableATMNumber
-			// 
-			this.AvailableATMNumber.AutoSize = true;
-			this.AvailableATMNumber.Location = new System.Drawing.Point(294, 32);
-			this.AvailableATMNumber.Name = "AvailableATMNumber";
-			this.AvailableATMNumber.Size = new System.Drawing.Size(13, 13);
-			this.AvailableATMNumber.TabIndex = 1;
-			this.AvailableATMNumber.Text = "3";
-			// 
-			// CreateATM
-			// 
-			this.CreateATM.Location = new System.Drawing.Point(207, 282);
-			this.CreateATM.Name = "CreateATM";
-			this.CreateATM.Size = new System.Drawing.Size(100, 153);
-			this.CreateATM.TabIndex = 2;
-			this.CreateATM.Text = "Access ATM instance";
-			this.CreateATM.UseVisualStyleBackColor = true;
-			this.CreateATM.Click += new System.EventHandler(this.createATM);
-			// 
-			// BankAccounts
-			// 
-			this.BankAccounts.FormattingEnabled = true;
-			this.BankAccounts.Location = new System.Drawing.Point(12, 32);
-			this.BankAccounts.Name = "BankAccounts";
-			this.BankAccounts.Size = new System.Drawing.Size(186, 459);
-			this.BankAccounts.TabIndex = 3;
-			// 
-			// Exit
-			// 
-			this.Exit.Location = new System.Drawing.Point(207, 442);
-			this.Exit.Name = "Exit";
-			this.Exit.Size = new System.Drawing.Size(100, 49);
-			this.Exit.TabIndex = 4;
-			this.Exit.Text = "Exit";
-			this.Exit.UseVisualStyleBackColor = true;
-			this.Exit.Click += new System.EventHandler(this.exit);
-			// 
-			// ATM_Manager
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(333, 499);
-			this.Controls.Add(this.Exit);
-			this.Controls.Add(this.BankAccounts);
-			this.Controls.Add(this.CreateATM);
-			this.Controls.Add(this.AvailableATMNumber);
-			this.Controls.Add(this.AvailableATMText);
-			this.Name = "ATM_Manager";
-			this.Text = "ATM manager";
-			this.ResumeLayout(false);
-			this.PerformLayout();
+            this.AvailableATMText = new System.Windows.Forms.Label();
+            this.AvailableATMNumber = new System.Windows.Forms.Label();
+            this.CreateATM = new System.Windows.Forms.Button();
+            this.BankAccounts = new System.Windows.Forms.ListBox();
+            this.Exit = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // AvailableATMText
+            // 
+            this.AvailableATMText.AutoSize = true;
+            this.AvailableATMText.Location = new System.Drawing.Point(204, 32);
+            this.AvailableATMText.Name = "AvailableATMText";
+            this.AvailableATMText.Size = new System.Drawing.Size(84, 13);
+            this.AvailableATMText.TabIndex = 0;
+            this.AvailableATMText.Text = "Available ATMs:";
+            // 
+            // AvailableATMNumber
+            // 
+            this.AvailableATMNumber.AutoSize = true;
+            this.AvailableATMNumber.Location = new System.Drawing.Point(294, 32);
+            this.AvailableATMNumber.Name = "AvailableATMNumber";
+            this.AvailableATMNumber.Size = new System.Drawing.Size(13, 13);
+            this.AvailableATMNumber.TabIndex = 1;
+            this.AvailableATMNumber.Text = "3";
+            // 
+            // CreateATM
+            // 
+            this.CreateATM.Location = new System.Drawing.Point(207, 282);
+            this.CreateATM.Name = "CreateATM";
+            this.CreateATM.Size = new System.Drawing.Size(100, 153);
+            this.CreateATM.TabIndex = 2;
+            this.CreateATM.Text = "Access ATM instance";
+            this.CreateATM.UseVisualStyleBackColor = true;
+            this.CreateATM.Click += new System.EventHandler(this.createATM);
+            // 
+            // BankAccounts
+            // 
+            this.BankAccounts.FormattingEnabled = true;
+            this.BankAccounts.Location = new System.Drawing.Point(12, 32);
+            this.BankAccounts.Name = "BankAccounts";
+            this.BankAccounts.Size = new System.Drawing.Size(186, 459);
+            this.BankAccounts.TabIndex = 3;
+            this.BankAccounts.SelectedIndexChanged += new System.EventHandler(this.BankAccounts_SelectedIndexChanged);
+            // 
+            // Exit
+            // 
+            this.Exit.Location = new System.Drawing.Point(207, 442);
+            this.Exit.Name = "Exit";
+            this.Exit.Size = new System.Drawing.Size(100, 49);
+            this.Exit.TabIndex = 4;
+            this.Exit.Text = "Exit";
+            this.Exit.UseVisualStyleBackColor = true;
+            this.Exit.Click += new System.EventHandler(this.exit);
+            // 
+            // ATM_Manager
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(333, 499);
+            this.Controls.Add(this.Exit);
+            this.Controls.Add(this.BankAccounts);
+            this.Controls.Add(this.CreateATM);
+            this.Controls.Add(this.AvailableATMNumber);
+            this.Controls.Add(this.AvailableATMText);
+            this.Name = "ATM_Manager";
+            this.Text = "ATM manager";
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 

@@ -30,8 +30,8 @@
 		{
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ATM));
             this.Cancel_btn = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.Clear_btn = new System.Windows.Forms.Button();
+            this.Enter_btn = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -43,15 +43,16 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
+            this.SideB4_btn = new System.Windows.Forms.Button();
+            this.SideB1_btn = new System.Windows.Forms.Button();
+            this.SideB3_btn = new System.Windows.Forms.Button();
+            this.SideB2_btn = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.SideA4_btn = new System.Windows.Forms.Button();
+            this.SideA3_btn = new System.Windows.Forms.Button();
+            this.SideA2_btn = new System.Windows.Forms.Button();
+            this.SideA1_btn = new System.Windows.Forms.Button();
+            this.BankAccounts = new System.Windows.Forms.ListBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -68,27 +69,27 @@
             this.Cancel_btn.UseVisualStyleBackColor = false;
             this.Cancel_btn.Click += new System.EventHandler(this.Cancel_btn_Click);
             // 
-            // button1
+            // Clear_btn
             // 
-            this.button1.BackColor = System.Drawing.Color.Orange;
-            this.button1.Location = new System.Drawing.Point(204, 342);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(84, 41);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "CLEAR";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.Clear_btn.BackColor = System.Drawing.Color.Orange;
+            this.Clear_btn.Location = new System.Drawing.Point(204, 342);
+            this.Clear_btn.Name = "Clear_btn";
+            this.Clear_btn.Size = new System.Drawing.Size(84, 41);
+            this.Clear_btn.TabIndex = 1;
+            this.Clear_btn.Text = "CLEAR";
+            this.Clear_btn.UseVisualStyleBackColor = false;
+            this.Clear_btn.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button2
+            // Enter_btn
             // 
-            this.button2.BackColor = System.Drawing.Color.OliveDrab;
-            this.button2.Location = new System.Drawing.Point(204, 389);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(84, 41);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "ENTER";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.Enter_btn.BackColor = System.Drawing.Color.OliveDrab;
+            this.Enter_btn.Location = new System.Drawing.Point(204, 389);
+            this.Enter_btn.Name = "Enter_btn";
+            this.Enter_btn.Size = new System.Drawing.Size(84, 41);
+            this.Enter_btn.TabIndex = 2;
+            this.Enter_btn.Text = "ENTER";
+            this.Enter_btn.UseVisualStyleBackColor = false;
+            this.Enter_btn.Click += new System.EventHandler(this.button2_Click);
             // 
             // panel1
             // 
@@ -194,142 +195,151 @@
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ControlLight;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.button7);
-            this.panel2.Controls.Add(this.button10);
-            this.panel2.Controls.Add(this.button8);
-            this.panel2.Controls.Add(this.button9);
+            this.panel2.Controls.Add(this.SideB4_btn);
+            this.panel2.Controls.Add(this.SideB1_btn);
+            this.panel2.Controls.Add(this.SideB3_btn);
+            this.panel2.Controls.Add(this.SideB2_btn);
             this.panel2.Location = new System.Drawing.Point(321, 34);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(33, 214);
             this.panel2.TabIndex = 5;
             // 
-            // button7
+            // SideB4_btn
             // 
-            this.button7.BackColor = System.Drawing.Color.Transparent;
-            this.button7.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button7.BackgroundImage")));
-            this.button7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button7.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.button7.Location = new System.Drawing.Point(-1, 173);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(33, 26);
-            this.button7.TabIndex = 11;
-            this.button7.UseVisualStyleBackColor = false;
+            this.SideB4_btn.BackColor = System.Drawing.Color.Transparent;
+            this.SideB4_btn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("SideB4_btn.BackgroundImage")));
+            this.SideB4_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.SideB4_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SideB4_btn.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.SideB4_btn.Location = new System.Drawing.Point(-1, 173);
+            this.SideB4_btn.Name = "SideB4_btn";
+            this.SideB4_btn.Size = new System.Drawing.Size(33, 26);
+            this.SideB4_btn.TabIndex = 11;
+            this.SideB4_btn.UseVisualStyleBackColor = false;
             // 
-            // button10
+            // SideB1_btn
             // 
-            this.button10.BackColor = System.Drawing.Color.Transparent;
-            this.button10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button10.BackgroundImage")));
-            this.button10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button10.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.button10.Location = new System.Drawing.Point(-1, 49);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(33, 26);
-            this.button10.TabIndex = 8;
-            this.button10.UseVisualStyleBackColor = false;
+            this.SideB1_btn.BackColor = System.Drawing.Color.Transparent;
+            this.SideB1_btn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("SideB1_btn.BackgroundImage")));
+            this.SideB1_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.SideB1_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SideB1_btn.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.SideB1_btn.Location = new System.Drawing.Point(-1, 49);
+            this.SideB1_btn.Name = "SideB1_btn";
+            this.SideB1_btn.Size = new System.Drawing.Size(33, 26);
+            this.SideB1_btn.TabIndex = 8;
+            this.SideB1_btn.UseVisualStyleBackColor = false;
             // 
-            // button8
+            // SideB3_btn
             // 
-            this.button8.BackColor = System.Drawing.Color.Transparent;
-            this.button8.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button8.BackgroundImage")));
-            this.button8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button8.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.button8.Location = new System.Drawing.Point(-1, 132);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(33, 26);
-            this.button8.TabIndex = 10;
-            this.button8.UseVisualStyleBackColor = false;
+            this.SideB3_btn.BackColor = System.Drawing.Color.Transparent;
+            this.SideB3_btn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("SideB3_btn.BackgroundImage")));
+            this.SideB3_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.SideB3_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SideB3_btn.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.SideB3_btn.Location = new System.Drawing.Point(-1, 132);
+            this.SideB3_btn.Name = "SideB3_btn";
+            this.SideB3_btn.Size = new System.Drawing.Size(33, 26);
+            this.SideB3_btn.TabIndex = 10;
+            this.SideB3_btn.UseVisualStyleBackColor = false;
             // 
-            // button9
+            // SideB2_btn
             // 
-            this.button9.BackColor = System.Drawing.Color.Transparent;
-            this.button9.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button9.BackgroundImage")));
-            this.button9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button9.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.button9.Location = new System.Drawing.Point(-1, 91);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(33, 26);
-            this.button9.TabIndex = 9;
-            this.button9.UseVisualStyleBackColor = false;
+            this.SideB2_btn.BackColor = System.Drawing.Color.Transparent;
+            this.SideB2_btn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("SideB2_btn.BackgroundImage")));
+            this.SideB2_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.SideB2_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SideB2_btn.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.SideB2_btn.Location = new System.Drawing.Point(-1, 91);
+            this.SideB2_btn.Name = "SideB2_btn";
+            this.SideB2_btn.Size = new System.Drawing.Size(33, 26);
+            this.SideB2_btn.TabIndex = 9;
+            this.SideB2_btn.UseVisualStyleBackColor = false;
             // 
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.SystemColors.ControlLight;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.button6);
-            this.panel3.Controls.Add(this.button5);
-            this.panel3.Controls.Add(this.button4);
-            this.panel3.Controls.Add(this.button3);
+            this.panel3.Controls.Add(this.SideA4_btn);
+            this.panel3.Controls.Add(this.SideA3_btn);
+            this.panel3.Controls.Add(this.SideA2_btn);
+            this.panel3.Controls.Add(this.SideA1_btn);
             this.panel3.Location = new System.Drawing.Point(31, 34);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(33, 214);
             this.panel3.TabIndex = 6;
             // 
-            // button6
+            // SideA4_btn
             // 
-            this.button6.BackColor = System.Drawing.Color.Transparent;
-            this.button6.BackgroundImage = global::ATM_assignment.Properties.Resources.button;
-            this.button6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button6.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.button6.Location = new System.Drawing.Point(-1, 173);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(33, 26);
-            this.button6.TabIndex = 7;
-            this.button6.UseVisualStyleBackColor = false;
+            this.SideA4_btn.BackColor = System.Drawing.Color.Transparent;
+            this.SideA4_btn.BackgroundImage = global::ATM_assignment.Properties.Resources.button;
+            this.SideA4_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.SideA4_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SideA4_btn.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.SideA4_btn.Location = new System.Drawing.Point(-1, 173);
+            this.SideA4_btn.Name = "SideA4_btn";
+            this.SideA4_btn.Size = new System.Drawing.Size(33, 26);
+            this.SideA4_btn.TabIndex = 7;
+            this.SideA4_btn.UseVisualStyleBackColor = false;
             // 
-            // button5
+            // SideA3_btn
             // 
-            this.button5.BackColor = System.Drawing.Color.Transparent;
-            this.button5.BackgroundImage = global::ATM_assignment.Properties.Resources.button;
-            this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button5.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.button5.Location = new System.Drawing.Point(-1, 132);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(33, 26);
-            this.button5.TabIndex = 2;
-            this.button5.UseVisualStyleBackColor = false;
+            this.SideA3_btn.BackColor = System.Drawing.Color.Transparent;
+            this.SideA3_btn.BackgroundImage = global::ATM_assignment.Properties.Resources.button;
+            this.SideA3_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.SideA3_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SideA3_btn.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.SideA3_btn.Location = new System.Drawing.Point(-1, 132);
+            this.SideA3_btn.Name = "SideA3_btn";
+            this.SideA3_btn.Size = new System.Drawing.Size(33, 26);
+            this.SideA3_btn.TabIndex = 2;
+            this.SideA3_btn.UseVisualStyleBackColor = false;
             // 
-            // button4
+            // SideA2_btn
             // 
-            this.button4.BackColor = System.Drawing.Color.Transparent;
-            this.button4.BackgroundImage = global::ATM_assignment.Properties.Resources.button;
-            this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.button4.Location = new System.Drawing.Point(-1, 91);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(33, 26);
-            this.button4.TabIndex = 1;
-            this.button4.UseVisualStyleBackColor = false;
+            this.SideA2_btn.BackColor = System.Drawing.Color.Transparent;
+            this.SideA2_btn.BackgroundImage = global::ATM_assignment.Properties.Resources.button;
+            this.SideA2_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.SideA2_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SideA2_btn.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.SideA2_btn.Location = new System.Drawing.Point(-1, 91);
+            this.SideA2_btn.Name = "SideA2_btn";
+            this.SideA2_btn.Size = new System.Drawing.Size(33, 26);
+            this.SideA2_btn.TabIndex = 1;
+            this.SideA2_btn.UseVisualStyleBackColor = false;
             // 
-            // button3
+            // SideA1_btn
             // 
-            this.button3.BackColor = System.Drawing.Color.Transparent;
-            this.button3.BackgroundImage = global::ATM_assignment.Properties.Resources.button;
-            this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.button3.Location = new System.Drawing.Point(-1, 49);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(33, 26);
-            this.button3.TabIndex = 0;
-            this.button3.UseVisualStyleBackColor = false;
+            this.SideA1_btn.BackColor = System.Drawing.Color.Transparent;
+            this.SideA1_btn.BackgroundImage = global::ATM_assignment.Properties.Resources.button;
+            this.SideA1_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.SideA1_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SideA1_btn.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.SideA1_btn.Location = new System.Drawing.Point(-1, 49);
+            this.SideA1_btn.Name = "SideA1_btn";
+            this.SideA1_btn.Size = new System.Drawing.Size(33, 26);
+            this.SideA1_btn.TabIndex = 0;
+            this.SideA1_btn.UseVisualStyleBackColor = false;
+            // 
+            // BankAccounts
+            // 
+            this.BankAccounts.FormattingEnabled = true;
+            this.BankAccounts.Location = new System.Drawing.Point(321, 295);
+            this.BankAccounts.Name = "BankAccounts";
+            this.BankAccounts.Size = new System.Drawing.Size(123, 147);
+            this.BankAccounts.TabIndex = 7;
             // 
             // ATM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(480, 496);
+            this.Controls.Add(this.BankAccounts);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.Enter_btn);
+            this.Controls.Add(this.Clear_btn);
             this.Controls.Add(this.Cancel_btn);
             this.Name = "ATM";
             this.Text = "ATM";
@@ -344,19 +354,19 @@
 		#endregion
 
         private System.Windows.Forms.Button Cancel_btn;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button Clear_btn;
+        private System.Windows.Forms.Button Enter_btn;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button SideA1_btn;
+        private System.Windows.Forms.Button SideB4_btn;
+        private System.Windows.Forms.Button SideB1_btn;
+        private System.Windows.Forms.Button SideB3_btn;
+        private System.Windows.Forms.Button SideB2_btn;
+        private System.Windows.Forms.Button SideA4_btn;
+        private System.Windows.Forms.Button SideA3_btn;
+        private System.Windows.Forms.Button SideA2_btn;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
@@ -366,5 +376,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ListBox BankAccounts;
 	}
 }
