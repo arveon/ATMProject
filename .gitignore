@@ -291,4 +291,4 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 
-ATM_assignment/bin/
+ATM_assignment/obj/
