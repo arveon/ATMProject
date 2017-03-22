@@ -26,7 +26,7 @@ namespace ATM_assignment
 
 		public ATM_Manager()
 		{
-			Console.WriteLine("asdasd");
+			Console.WriteLine("duckduck");
 			//i think it should work like that... a list of ATM threads
 			ATMs = new List<Thread>();
 
