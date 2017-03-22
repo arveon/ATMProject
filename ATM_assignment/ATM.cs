@@ -27,10 +27,10 @@ namespace ATM_assignment
 		private int numpadMargin = 5;
 		private Size numpadButtonDimension = new Size(50,50);
 
-		public ATM()
+		public ATM(Bank bank)
 		{
 			//_disconnected = atmUpdater;
-			//this.bank = bank;
+			this.bank = bank;
 
 			numpad = new List<Button>();
 			for(int i = 0; i < 3; i++)
@@ -40,8 +40,13 @@ namespace ATM_assignment
 					Button button = new Button();
 					button.Bounds = new Rectangle(new Point(offsetPoint.X + (i*(numpadButtonDimension.Width+numpadMargin)), offsetPoint.Y + (j * (numpadButtonDimension.Height + numpadMargin))), numpadButtonDimension);
 					button.Text = ((i * j) + 1).ToString();
+					button.Click += (source, args) =>
+						{
+							//bank.
 
+						};
 
+					Controls.Add(button);
 				}
 			}
 

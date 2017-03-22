@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace ATM_assignment
 {
-	class BankAccount
+	public class BankAccount
 	{
 		private const int withdrawalLimit = 300;//limit of how much money you can withdraw per day
 		public int AccountNumber { get; private set; }
 		public int Balance { get; private set; }//current balance
 		int WithdrawnToday { get; set; }//how much money was withdrawn this day, has to be under withdrawal limit
-		private int CardPin { get; set; }
+		public int CardPin { get; set; }
 
 		//custom constructor that initialises the account number, balance and pin to given values
 		public BankAccount(int AccNumber, int Balance, int PIN)
