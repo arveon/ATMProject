@@ -10,14 +10,11 @@ using System.Windows.Forms;
 
 namespace ATM_assignment
 {
+	public delegate void updateAccountDisplay(int asd);
 	public partial class ATM : Form
 	{
 		//UpdateNumberOfATMs _disconnected;
-
-		public event EventHandler PinEnteredEvent;
-		public event EventHandler MoneyWithdrawnEvent;
-		public event EventHandler ATMDisconnectedEvent;
-		
+		updateAccountDisplay AccountUpdated;
 
 		List<Button> numpad;
 
@@ -27,9 +24,9 @@ namespace ATM_assignment
 		private int numpadMargin = 5;
 		private Size numpadButtonDimension = new Size(50,50);
 
-		public ATM(Bank bank)
+		public ATM(Bank bank, updateAccountDisplay updater)
 		{
-			//_disconnected = atmUpdater;
+			AccountUpdated = updater;
 			this.bank = bank;
 
 			numpad = new List<Button>();
@@ -42,8 +39,8 @@ namespace ATM_assignment
 					button.Text = ((i * j) + 1).ToString();
 					button.Click += (source, args) =>
 						{
-							//bank.
-
+							bank.DoAction(ATMAction.WithdrawMoney, 10, 111111);
+							AccountUpdated(123);
 						};
 
 					Controls.Add(button);

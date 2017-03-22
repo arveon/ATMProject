@@ -50,8 +50,9 @@ namespace ATM_assignment
 				numOfATMAvailable--;
 				AvailableATMNumber.Text = numOfATMAvailable.ToString();
 
-				Thread atm = new Thread(atmThread);
-				atm.Start();
+				updateAccountDisplay callback = new updateAccountDisplay(accountUpdated);
+				Thread atm = new Thread(new ParameterizedThreadStart(atmThread));
+				atm.Start(callback);
 				
 				ATMs.Add(atm);
 			}
@@ -59,7 +60,7 @@ namespace ATM_assignment
 
 		private void atmThread(object atmUpdater)
 		{
-			ATM ATM = new ATM(bank);
+			ATM ATM = new ATM(bank, (updateAccountDisplay)atmUpdater);
 			Application.Run(ATM);
 
 			numOfATMAvailable++;
@@ -73,6 +74,16 @@ namespace ATM_assignment
 					BankAccounts.DataSource = bank.getAccounts();
 
 				}));
+			
+		}
+
+		private void accountUpdated(int asd)
+		{
+			BankAccounts.Invoke(new MethodInvoker(delegate
+			{
+				BankAccounts.DataSource = bank.getAccounts();
+
+			}));
 			
 		}
 	}
