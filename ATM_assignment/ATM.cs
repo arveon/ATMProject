@@ -74,7 +74,24 @@ namespace ATM_assignment
 					
 				}
 			}
+
+			
+
+
 			InitializeComponent();
+
+			main_display.TextAlign = ContentAlignment.MiddleLeft;
+
+			UpdateMachine();
+			//a1_label.Text = "a1";
+			//a2_label.Text = "label2";
+			//a3_label.Text = "label3";
+			//a4_label.Text = "label4";
+			//b1_label.Text = "label5";
+			//b2_label.Text = "label6";
+			//b3_label.Text = "label7";
+			//b4_label.Text = "b4";
+			//main_display.Text = "label9";
 		}
 
         private void button1_Click(object sender, EventArgs e)
@@ -102,24 +119,75 @@ namespace ATM_assignment
 			switch(curState)
 			{
 				case MachineState.WaitingForCard:
-					
+					main_display.Text = "Please, insert your card";
+					a1_label.Text = "";
+					a2_label.Text = "";
+					a3_label.Text = "";
+					a4_label.Text = "";
+					b1_label.Text = "";
+					b2_label.Text = "";
+					b3_label.Text = "";
+					b4_label.Text = "";
 					break;
 				case MachineState.WaitingForPin:
-
+					main_display.Text = "Please, enter your pin:";
+					a1_label.Text = "";
+					a2_label.Text = "";
+					a3_label.Text = "";
+					a4_label.Text = "";
+					b1_label.Text = "";
+					b2_label.Text = "";
+					b3_label.Text = "";
+					b4_label.Text = "";
 					break;
 				case MachineState.MainMenu:
-
+					main_display.Text = bank.getAccounts().First();
+					a3_label.Text = "";
+					a4_label.Text = "";
+					b2_label.Text = "";
+					b3_label.Text = "";
+					b4_label.Text = "";
+					a1_label.Text = "Check balance";
+					a2_label.Text = "Change pin";
+					b1_label.Text = "Withdraw money";
 					break;
 				case MachineState.WithdrawingMoney:
-
+					main_display.Text = bank.getAccounts().First();
+					a1_label.Text = "5";
+					a2_label.Text = "20";
+					a3_label.Text = "100";
+					b1_label.Text = "10";
+					b2_label.Text = "50";
+					b3_label.Text = "Custom";
 					break;
 				case MachineState.ShowingBalance:
-
+					main_display.Text = bank.getAccounts().First();
+					a1_label.Text = "";
+					a2_label.Text = "";
+					a3_label.Text = "";
+					a4_label.Text = "";
+					b1_label.Text = "";
+					b2_label.Text = "";
+					b3_label.Text = "";
+					b4_label.Text = "";
 					break;
 				case MachineState.ChangingPin:
-
+					main_display.Text = "Enter your old pin:";
+					a1_label.Text = "";
+					a2_label.Text = "";
+					a3_label.Text = "";
+					a4_label.Text = "";
+					b1_label.Text = "";
+					b2_label.Text = "";
+					b3_label.Text = "";
+					b4_label.Text = "";
 					break;
 			}
+		}
+
+		private void panel1_Paint(object sender, PaintEventArgs e)
+		{
+
 		}
 
 	}
