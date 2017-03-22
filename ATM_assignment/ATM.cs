@@ -13,7 +13,18 @@ namespace ATM_assignment
 	public delegate void updateAccountDisplay(int asd);
 	public partial class ATM : Form
 	{
-		//UpdateNumberOfATMs _disconnected;
+		enum MachineState
+		{
+			WaitingForCard,
+			WaitingForPin,
+			MainMenu,
+			ShowingBalance,
+			WithdrawingMoney,
+			ChangingPin
+		}
+		private MachineState curState;
+
+
 		updateAccountDisplay AccountUpdated;
 
 		List<Button> numpad;
@@ -26,6 +37,8 @@ namespace ATM_assignment
 
 		public ATM(Bank bank, updateAccountDisplay updater)
 		{
+			curState = MachineState.WaitingForCard;
+
 			AccountUpdated = updater;
 			this.bank = bank;
 
@@ -79,7 +92,30 @@ namespace ATM_assignment
 
         }
 
+		private void UpdateMachine()
+		{
+			switch(curState)
+			{
+				case MachineState.WaitingForCard:
+					
+					break;
+				case MachineState.WaitingForPin:
 
+					break;
+				case MachineState.MainMenu:
+
+					break;
+				case MachineState.WithdrawingMoney:
+
+					break;
+				case MachineState.ShowingBalance:
+
+					break;
+				case MachineState.ChangingPin:
+
+					break;
+			}
+		}
 
 	}
 }
