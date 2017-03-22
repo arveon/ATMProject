@@ -24,3 +24,10 @@ C:\Users\TEMP.COMPUTING\Desktop\ATMProject\ATM_assignment\obj\Debug\ATM_assignme
 C:\Users\aleksejsloginovs\Desktop\ATMProject\ATM_assignment\bin\Debug\ATM_assignment.exe.config
 C:\Users\aleksejsloginovs\Desktop\ATMProject\ATM_assignment\obj\Debug\ATM_assignment.exe
 C:\Users\aleksejsloginovs\Desktop\ATMProject\ATM_assignment\obj\Debug\ATM_assignment.pdb
+C:\Users\aleksejsloginovs\Desktop\ATMProject\ATM_assignment\obj\Debug\ATM_assignment.csprojResolveAssemblyReference.cache
+C:\Users\aleksejsloginovs\Desktop\ATMProject\ATM_assignment\obj\Debug\ATM_assignment.ATM.resources
+C:\Users\aleksejsloginovs\Desktop\ATMProject\ATM_assignment\obj\Debug\ATM_assignment.ATM_Manager.resources
+C:\Users\aleksejsloginovs\Desktop\ATMProject\ATM_assignment\obj\Debug\ATM_assignment.Properties.Resources.resources
+C:\Users\aleksejsloginovs\Desktop\ATMProject\ATM_assignment\obj\Debug\ATM_assignment.csproj.GenerateResource.Cache
+C:\Users\aleksejsloginovs\Desktop\ATMProject\ATM_assignment\bin\Debug\ATM_assignment.exe
+C:\Users\aleksejsloginovs\Desktop\ATMProject\ATM_assignment\bin\Debug\ATM_assignment.pdb
