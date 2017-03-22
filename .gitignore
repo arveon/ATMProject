@@ -265,6 +265,10 @@ paket-files/
 
 # JetBrains Rider
 .idea/
+
+
+#ATM
+ATM_assignment/bin
 *.sln.iml
 
 # CodeRush
