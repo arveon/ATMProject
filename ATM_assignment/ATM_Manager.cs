@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace ATM_assignment
 {
-	public delegate void UpdateNumberOfATMs(int asd);
+	//public delegate void UpdateNumberOfATMs(int asd);
 	public partial class ATM_Manager : Form
 	{
 		public event EventHandler ATMDisconnected;
@@ -52,31 +52,24 @@ namespace ATM_assignment
 				numOfATMAvailable--;
 				AvailableATMNumber.Text = numOfATMAvailable.ToString();
 
-				UpdateNumberOfATMs temp = new UpdateNumberOfATMs(addAvailableATM);
-				Thread atm = new Thread(new ParameterizedThreadStart(atmThread));
-				atm.Start(temp);
+				Thread atm = new Thread(atmThread);
+				atm.Start();
 				
 				ATMs.Add(atm);
-				//Console.WriteLine("asd");
 			}
 		}
 
 		private void atmThread(object atmUpdater)
 		{
-			ATM ATM = new ATM((UpdateNumberOfATMs)atmUpdater);
+			ATM ATM = new ATM();
 			Application.Run(ATM);
-			//numOfATMAvailable++;
-		}
 
-		private void addAvailableATM(int asd)
-		{
-			Console.WriteLine(asd);
 			numOfATMAvailable++;
-			AvailableATMNumber.Text = numOfATMAvailable.ToString();
+			AvailableATMNumber.Invoke(new MethodInvoker(delegate
+			{
+				AvailableATMNumber.Text = numOfATMAvailable.ToString();
+			}));
+			
 		}
-
-
-
-
 	}
 }

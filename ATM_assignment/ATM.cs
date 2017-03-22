@@ -12,7 +12,7 @@ namespace ATM_assignment
 {
 	public partial class ATM : Form
 	{
-		UpdateNumberOfATMs _disconnected;
+		//UpdateNumberOfATMs _disconnected;
 
 		public event EventHandler PinEnteredEvent;
 		public event EventHandler MoneyWithdrawnEvent;
@@ -27,9 +27,9 @@ namespace ATM_assignment
 		private int numpadMargin = 5;
 		private Size numpadButtonDimension = new Size(50,50);
 
-		public ATM(UpdateNumberOfATMs atmUpdater)
+		public ATM()
 		{
-			_disconnected = atmUpdater;
+			//_disconnected = atmUpdater;
 			//this.bank = bank;
 
 			numpad = new List<Button>();
@@ -45,10 +45,10 @@ namespace ATM_assignment
 				}
 			}
 
-			this.FormClosed += (sender, eventArgs) =>
-			{
-				_disconnected(123);
-			};
+			//this.FormClosed += (sender, eventArgs) =>
+			//{
+			//	//_disconnected(123);
+			//};
 
 			InitializeComponent();
 		}
