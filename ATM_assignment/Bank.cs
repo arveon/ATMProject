@@ -53,7 +53,20 @@ namespace ATM_assignment
 			return result;
 		}
 
-		public bool DoAction(ATMAction action, int argument, int accountNumber)
+		public bool SetPin(int accountNumber, int newPin)
+		{
+			foreach(BankAccount acc in AccountList)
+			{
+				if(acc.AccountNumber == accountNumber)
+				{
+					acc.CardPin = newPin;
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public bool DoAction(ATMAction action, int argument, int accountNumber, bool isMachineBroken)
 		{
 			bool result = false;
 
@@ -82,11 +95,22 @@ namespace ATM_assignment
 					curAcc.CardPin = argument;
 					result = true;
 					break;
-				case ATMAction.InsertMoney:
-					result = curAcc.withdrawMoney(argument);
-					break;
 				case ATMAction.WithdrawMoney:
-					result = curAcc.withdrawMoney(argument);
+					if (!isMachineBroken)
+					{
+						ATM_Manager.threadController.WaitOne();
+						int balance = curAcc.Balance;
+						System.Threading.Thread.Sleep(3000);
+						result = curAcc.setBalance(balance - argument);
+						//result = curAcc.withdrawMoney(argument);
+						ATM_Manager.threadController.Release();
+					}
+					else
+					{
+						int balance = curAcc.Balance;
+						System.Threading.Thread.Sleep(3000);
+						result = curAcc.setBalance(balance - argument);
+					}
 					break;
 			}
 
@@ -103,6 +127,17 @@ namespace ATM_assignment
 				}
 			}
 			return -1;
+		}
+
+		public void setAccountBalance(int accountNumber, int newBalance)
+		{
+			foreach (BankAccount acc in AccountList)
+			{
+				if (acc.AccountNumber == accountNumber)
+				{
+					acc.setBalance(newBalance);
+				}
+			}
 		}
 
 		//will only return all bank account numbers and their balances as a list of strings

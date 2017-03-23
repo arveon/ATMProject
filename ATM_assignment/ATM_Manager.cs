@@ -13,28 +13,24 @@ namespace ATM_assignment
 {
 	public partial class ATM_Manager : Form
 	{
-		public static Semaphore threadController = new Semaphore(0,1);
+		public static Semaphore threadController = new Semaphore(1,1);
 		private int numOfATMAvailable;
-
+		List<string> log;
 		Bank bank;
-
 		List<Thread> ATMs;
-
-		//Thread test;
 
 		public ATM_Manager()
 		{
-			Console.WriteLine("oyblyat");
 			//i think it should work like that... a list of ATM threads
 			ATMs = new List<Thread>();
 
-
+			log = new List<String>();
 			numOfATMAvailable = 4;//just a hardcoded sample value
 			bank = new Bank();//bank system that is handling all the interaction with bank accounts
 			InitializeComponent();
 			
 			AvailableATMNumber.Text = numOfATMAvailable.ToString();
-			BankAccounts.DataSource = bank.getAccounts();//listbox on form showing accounts and balances
+			BankAccounts.DataSource = log;//listbox on form showing accounts and balances
 			this.FormClosing += new FormClosingEventHandler(exit);
 		}
 
@@ -46,7 +42,7 @@ namespace ATM_assignment
 			Application.Exit();
 		}
 
-		private void createATM(object sender, EventArgs e)
+		private void createBrokenATM(object sender, EventArgs e)
 		{
 			//if number of available atms is > 0, deduct one, update the label and create the ATM
 			if(numOfATMAvailable > 0)
@@ -54,17 +50,37 @@ namespace ATM_assignment
 				numOfATMAvailable--;
 				AvailableATMNumber.Text = numOfATMAvailable.ToString();
 
-				updateAccountDisplay callback = new updateAccountDisplay(accountUpdated);
-				Thread atm = new Thread(new ParameterizedThreadStart(atmThread));
-				atm.Start(callback);
+				Thread atm = new Thread(delegate()
+					{
+						atmThread(new UpdateLog(updateLog), true);
+					});
+				atm.Start();
 				
 				ATMs.Add(atm);
 			}
 		}
 
-		private void atmThread(object atmUpdater)
+		private void createFixedATM(object sender, EventArgs e)
 		{
-			ATM ATM = new ATM(bank, (updateAccountDisplay)atmUpdater);
+			//if number of available atms is > 0, deduct one, update the label and create the ATM
+			if (numOfATMAvailable > 0)
+			{
+				numOfATMAvailable--;
+				AvailableATMNumber.Text = numOfATMAvailable.ToString();
+
+				Thread atm = new Thread(delegate()
+				{
+					atmThread(new UpdateLog(updateLog), false);
+				});
+				atm.Start();
+
+				ATMs.Add(atm);
+			}
+		}
+
+		private void atmThread(object logger, bool isBroken)
+		{
+			ATM ATM = new ATM(bank, (UpdateLog)logger, isBroken);
 			Application.Run(ATM);
 
 			numOfATMAvailable++;
@@ -72,28 +88,26 @@ namespace ATM_assignment
 				{
 					AvailableATMNumber.Text = numOfATMAvailable.ToString();
 				}));
+		}
+
+		private void updateLog(string logEntry)
+		{
+			//Console.WriteLine("log entry added");
+			log.Add(DateTime.Now.ToString("hh:mm:ss") + " - " + logEntry);
+
 
 			BankAccounts.Invoke(new MethodInvoker(delegate
 				{
-					BankAccounts.DataSource = bank.getAccounts();
-
+					BankAccounts.DataSource = null;
+					BankAccounts.DataSource = log;
+					//BankAccounts.DataSource = log;
+					BankAccounts.Update();
 				}));
-			
 		}
 
-		private void accountUpdated(int asd)
+		private void button1_Click(object sender, EventArgs e)
 		{
-			BankAccounts.Invoke(new MethodInvoker(delegate
-			{
-				BankAccounts.DataSource = bank.getAccounts();
-
-			}));
-
-        }
-
-        private void BankAccounts_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
+			createFixedATM(sender, e);
+		}
 	}
 }

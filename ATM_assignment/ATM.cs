@@ -10,9 +10,11 @@ using System.Windows.Forms;
 
 namespace ATM_assignment
 {
-	public delegate void updateAccountDisplay(int asd);
+	public delegate void UpdateLog(string message);
 	public partial class ATM : Form
 	{
+		private bool isBroken;
+
 		System.Timers.Timer temp_message_timer = new System.Timers.Timer(1000);
 		enum MachineState
 		{
@@ -35,7 +37,7 @@ namespace ATM_assignment
 		string numberEntered;
 		string curAccNum;
 
-		updateAccountDisplay AccountUpdated;
+		UpdateLog logUpdater;
 
 		List<Button> numpad;
 
@@ -45,15 +47,16 @@ namespace ATM_assignment
 		private int numpadMargin = 5;
 		private Size numpadButtonDimension = new Size(50,50);
 
-		public ATM(Bank bank, updateAccountDisplay updater)
+		public ATM(Bank bank, UpdateLog logger, bool isBroken)
 		{
 			temp_message_timer.Elapsed += new System.Timers.ElapsedEventHandler(InvalidInputTimer);
 			temp_message_timer.AutoReset = true;
 			curAccNum = "";
 			curState = MachineState.WaitingForCard;
 
-			AccountUpdated = updater;
+			logUpdater = logger;
 			this.bank = bank;
+			this.isBroken = isBroken;
 
 			numberEntered = "";
 
@@ -79,8 +82,15 @@ namespace ATM_assignment
 			b3_label.TextAlign = ContentAlignment.MiddleRight;
 			b4_label.TextAlign = ContentAlignment.MiddleRight;
 
-
 			UpdateMachine();
+			logUpdater("Machine started");
+
+			this.FormClosing += (sender, eventArgs) =>
+				{
+					logUpdater("Machine terminated");
+				};
+
+
 			
 		}
 
@@ -104,36 +114,58 @@ namespace ATM_assignment
 			switch(curState)
 			{
 				case MachineState.WaitingForPin:
-					
 					if (numberEntered.Length == 4 && bank.CheckPin(Convert.ToInt32(curAccNum), Convert.ToInt32(numberEntered)))
 					{
 						curState = MachineState.MainMenu;
+						logUpdater(curAccNum + " card PIN entered correctly");
 					}
 					else
 					{
 						curState = MachineState.InvalidPin;
-						UpdateMachine();
+						logUpdater(curAccNum + " card PIN entered incorrectly");
 					}
 					numberEntered = "";
 					break;
 				case MachineState.WithdrawingCustomAmount:
-					if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(numberEntered), Convert.ToInt32(curAccNum)))
+					if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(numberEntered), Convert.ToInt32(curAccNum), isBroken))
+					{
 						curState = MachineState.ConfirmWantAnotherAction;
+						logUpdater(curAccNum + " took £" + numberEntered + " off the account. New balance: " + bank.getAccountBalance(Convert.ToInt32(curAccNum)));
+
+					}
 					else
+					{
 						curState = MachineState.InsufficientFunds;
+						logUpdater(curAccNum + " failed to withdraw £" + numberEntered + " off the account. Insufficient funds");
+
+					}
 					numberEntered = "";
 					
 					break;
 				case MachineState.ChangingPinNewPin:
-					if(numberEntered.Length == 4)
+					if (numberEntered.Length == 4)
 					{
-						curState = MachineState.MainMenu;
+						bank.SetPin(Convert.ToInt32(curAccNum), Convert.ToInt32(numberEntered));
+						curState = MachineState.ConfirmWantAnotherAction;
+						logUpdater(curAccNum + " changed their pin to " + numberEntered);
 					}
+					else
+						curState = MachineState.InvalidInput;
+					
 					numberEntered = "";
 					break;
 				case MachineState.ChangingPinOldPin:
-					if (numberEntered.Length == 4)
-						curState = MachineState.ChangingPinNewPin;
+					
+					if(numberEntered.Length > 0)
+						if (bank.CheckPin(Convert.ToInt32(curAccNum), Convert.ToInt32(numberEntered)))
+						{
+							curState = MachineState.ChangingPinNewPin;
+						}
+						else
+						{
+							logUpdater(curAccNum + " pin change failed");
+							curState = MachineState.InvalidInput;
+						}
 					numberEntered = "";
 					break;
 			}
@@ -146,6 +178,7 @@ namespace ATM_assignment
 			{
 				curState = MachineState.EndMessage;
 				numberEntered = "";
+				logUpdater(curAccNum + " card ejected.");
 				UpdateMachine();
 			}
         }
@@ -239,6 +272,7 @@ namespace ATM_assignment
 					b4_label.Text = "";
 					break;
 				case MachineState.ChangingPinOldPin:
+					Console.WriteLine("gotToOldPinstate");
 					main_display.Text = "Enter your old pin:";
 					NumberLabel.Text = "";
 					count = numberEntered.Length;
@@ -262,6 +296,7 @@ namespace ATM_assignment
 					b4_label.Text = "";
 					break;
 				case MachineState.ChangingPinNewPin:
+					Console.WriteLine("gotToNewPinstate");
 					main_display.Text = "Enter your new pin:";
 					NumberLabel.Text = "";
 					count = numberEntered.Length;
@@ -298,6 +333,7 @@ namespace ATM_assignment
 					break;
 				case MachineState.InvalidPin:
 					main_display.Text = "Invalid pin entered";
+					NumberLabel.Text = "";
 					curState = MachineState.WaitingForPin;
 					temp_message_timer.Enabled = true;
 					break;
@@ -331,17 +367,39 @@ namespace ATM_assignment
 					curState = MachineState.ConfirmWantAnotherAction;
 					temp_message_timer.Enabled = true;
 					break;
+				case MachineState.InvalidInput:
+					main_display.Text = "Invalid pin!";
+					NumberLabel.Text = "";
+					a1_label.Text = "";
+					a2_label.Text = "";
+					a3_label.Text = "";
+					a4_label.Text = "";
+					b1_label.Text = "";
+					b2_label.Text = "";
+					b3_label.Text = "";
+					b4_label.Text = "";
+					numberEntered = "";
+					curState = MachineState.ConfirmWantAnotherAction;
+					temp_message_timer.Enabled = true;
+					break;
 			}
 		}
 
 		private void InvalidInputTimer(object sender, EventArgs e)
 		{
-			((System.Timers.Timer)sender).Enabled = false;
-			this.Invoke(new MethodInvoker(delegate {
-				UpdateMachine();
-			}));
-		}
+			//required in case user closes the atm before the timer elapses
+			try
+			{
+				((System.Timers.Timer)sender).Enabled = false;
+				this.Invoke(new MethodInvoker(delegate {
+					UpdateMachine();
+				}));
+			}
+			catch (Exception)
+			{
 
+			}
+		}
 
 		private void CreateKeypadButtons()
 		{
@@ -383,10 +441,16 @@ namespace ATM_assignment
 					curState = MachineState.ShowingBalance;
 					break;
 				case MachineState.WithdrawingMoney:
-					if(bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(a1_label.Text), Convert.ToInt32(curAccNum)))
+					if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(a1_label.Text), Convert.ToInt32(curAccNum), isBroken))
+					{
 						curState = MachineState.ConfirmWantAnotherAction;
+						logUpdater(curAccNum + " took £" + a1_label.Text + " off the account. New balance: " + bank.getAccountBalance(Convert.ToInt32(curAccNum)));
+					}
 					else
+					{
 						curState = MachineState.InsufficientFunds;
+						logUpdater(curAccNum + " failed to withdraw £" + a1_label.Text + " off the account. Insufficient funds");
+					}
 					break;
 			}
 			UpdateMachine();
@@ -400,10 +464,16 @@ namespace ATM_assignment
 					curState = MachineState.ChangingPinOldPin;
 					break;
 				case MachineState.WithdrawingMoney:
-					if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(a2_label.Text), Convert.ToInt32(curAccNum)))
+					if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(a2_label.Text), Convert.ToInt32(curAccNum), isBroken))
+					{
 						curState = MachineState.ConfirmWantAnotherAction;
+						logUpdater(curAccNum + " took £" + a2_label.Text + " off the account. New balance: " + bank.getAccountBalance(Convert.ToInt32(curAccNum)));
+					}
 					else
+					{
 						curState = MachineState.InsufficientFunds;
+						logUpdater(curAccNum + " failed to withdraw £" + a2_label.Text + " off the account. Insufficient funds");
+					}
 					break;
 			}
 			UpdateMachine();
@@ -413,12 +483,16 @@ namespace ATM_assignment
 		{
 			if (curState == MachineState.WithdrawingMoney)
 			{
-				if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(a3_label.Text), Convert.ToInt32(curAccNum)))
+				if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(a3_label.Text), Convert.ToInt32(curAccNum), isBroken))
 				{
 					curState = MachineState.ConfirmWantAnotherAction;
+					logUpdater(curAccNum + " took £" + a3_label.Text + " off the account. New balance: " + bank.getAccountBalance(Convert.ToInt32(curAccNum)));
 				}
 				else
+				{
 					curState = MachineState.InsufficientFunds;
+					logUpdater(curAccNum + " failed to withdraw £" + a3_label.Text + " off the account. Insufficient funds");
+				}
 			}
 			else if(curState == MachineState.ConfirmWantAnotherAction)
 			{
@@ -435,10 +509,16 @@ namespace ATM_assignment
 					curState = MachineState.WithdrawingMoney;
 					break;
 				case MachineState.WithdrawingMoney:
-					if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(b1_label.Text), Convert.ToInt32(curAccNum)))
+					if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(b1_label.Text), Convert.ToInt32(curAccNum), isBroken))
+					{
 						curState = MachineState.ConfirmWantAnotherAction;
+						logUpdater(curAccNum + " took £" + b1_label.Text + " off the account. New balance: " + bank.getAccountBalance(Convert.ToInt32(curAccNum)));
+					}
 					else
+					{
 						curState = MachineState.InsufficientFunds;
+						logUpdater(curAccNum + " failed to withdraw £" + b2_label.Text + " off the account. Insufficient funds");
+					}
 					break;
 			}
 			UpdateMachine();
@@ -448,10 +528,17 @@ namespace ATM_assignment
 		{
 			if(curState == MachineState.WithdrawingMoney)
 			{
-				if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(b2_label.Text), Convert.ToInt32(curAccNum)))
+				if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(b2_label.Text), Convert.ToInt32(curAccNum), isBroken))
+				{
 					curState = MachineState.ConfirmWantAnotherAction;
+					logUpdater(curAccNum + " took £" + b2_label.Text + " off the account. New balance: " + bank.getAccountBalance(Convert.ToInt32(curAccNum)));
+				}
 				else
+				{
 					curState = MachineState.InsufficientFunds;
+					logUpdater(curAccNum + " failed to withdraw £" + b2_label.Text + " off the account. Insufficient funds");
+
+				}
 			}
 			UpdateMachine();
 		}
@@ -473,6 +560,7 @@ namespace ATM_assignment
 					break;
 				case MachineState.ConfirmWantAnotherAction:
 					curState = MachineState.EndMessage;
+					logUpdater(curAccNum + " card ejected");
 					break;
 			}
 			UpdateMachine();
@@ -491,6 +579,7 @@ namespace ATM_assignment
 			{
 				curState = MachineState.WaitingForPin;
 				curAccNum = ((string)BankAccounts.SelectedItem).Substring(0, 6);
+				logUpdater(((string)BankAccounts.SelectedItem).Substring(0, 6) + " card inserted");
 			}
 			UpdateMachine();
 		}

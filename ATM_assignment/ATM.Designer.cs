@@ -134,37 +134,41 @@
 			// 
 			this.b4_label.AutoSize = true;
 			this.b4_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.b4_label.Location = new System.Drawing.Point(169, 178);
+			this.b4_label.Location = new System.Drawing.Point(178, 178);
 			this.b4_label.Name = "b4_label";
-			this.b4_label.Size = new System.Drawing.Size(0, 20);
+			this.b4_label.Size = new System.Drawing.Size(96, 20);
 			this.b4_label.TabIndex = 7;
+			this.b4_label.Text = "asdasdasda";
 			// 
 			// b3_label
 			// 
 			this.b3_label.AutoSize = true;
 			this.b3_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.b3_label.Location = new System.Drawing.Point(169, 133);
+			this.b3_label.Location = new System.Drawing.Point(178, 133);
 			this.b3_label.Name = "b3_label";
-			this.b3_label.Size = new System.Drawing.Size(0, 20);
+			this.b3_label.Size = new System.Drawing.Size(96, 20);
 			this.b3_label.TabIndex = 6;
+			this.b3_label.Text = "asdasdasda";
 			// 
 			// b2_label
 			// 
 			this.b2_label.AutoSize = true;
 			this.b2_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.b2_label.Location = new System.Drawing.Point(169, 92);
+			this.b2_label.Location = new System.Drawing.Point(178, 92);
 			this.b2_label.Name = "b2_label";
-			this.b2_label.Size = new System.Drawing.Size(0, 20);
+			this.b2_label.Size = new System.Drawing.Size(96, 20);
 			this.b2_label.TabIndex = 5;
+			this.b2_label.Text = "asdasdasda";
 			// 
 			// b1_label
 			// 
 			this.b1_label.AutoSize = true;
 			this.b1_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.b1_label.Location = new System.Drawing.Point(169, 50);
+			this.b1_label.Location = new System.Drawing.Point(178, 50);
 			this.b1_label.Name = "b1_label";
-			this.b1_label.Size = new System.Drawing.Size(0, 20);
+			this.b1_label.Size = new System.Drawing.Size(96, 20);
 			this.b1_label.TabIndex = 4;
+			this.b1_label.Text = "asdasdasda";
 			// 
 			// a4_label
 			// 

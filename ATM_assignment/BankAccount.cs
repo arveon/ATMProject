@@ -25,12 +25,18 @@ namespace ATM_assignment
 		}
 
 		//this way of changing the balance will create a racing condition between different ATMs
-		public void setBalance(int newBalance)
+		public bool setBalance(int newBalance)
 		{
-			Balance = newBalance;
-		}
-		Semaphore semaphone = new Semaphore(1, 1);
-		
+			bool result = false;
+			if (newBalance >= 0)
+			{
+				Balance = newBalance;
+				result = true;
+			}
+				
+
+			return result;
+		}		
 		
 		//this method of changing the balance will completely eliminate the racing condition between the ATMs
 		public bool withdrawMoney(int toBeWithdrawn)
@@ -45,7 +51,7 @@ namespace ATM_assignment
 			//setBalance(variable-moneyYouwanttoTake)
 			//semaphone.release()
 			bool enoughMoneyAvailable = false;
-			if(Balance > toBeWithdrawn && WithdrawnToday + toBeWithdrawn <= withdrawalLimit)
+			if(Balance >= toBeWithdrawn)
 			{
 				WithdrawnToday += toBeWithdrawn;
 				Balance -= toBeWithdrawn;
