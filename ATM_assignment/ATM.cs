@@ -79,19 +79,19 @@ namespace ATM_assignment
 
 
 			InitializeComponent();
+			Enter_btn.Click += (sender, eventArguments) =>
+			{
+				if (curState == (MachineState)5) curState = 0;
+				else curState++;
+
+				UpdateMachine();
+				Console.WriteLine(curState);
+			};
 
 			main_display.TextAlign = ContentAlignment.MiddleLeft;
 
 			UpdateMachine();
-			//a1_label.Text = "a1";
-			//a2_label.Text = "label2";
-			//a3_label.Text = "label3";
-			//a4_label.Text = "label4";
-			//b1_label.Text = "label5";
-			//b2_label.Text = "label6";
-			//b3_label.Text = "label7";
-			//b4_label.Text = "b4";
-			//main_display.Text = "label9";
+			
 		}
 
         private void button1_Click(object sender, EventArgs e)
