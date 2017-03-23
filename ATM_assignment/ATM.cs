@@ -20,7 +20,8 @@ namespace ATM_assignment
 			MainMenu,
 			ShowingBalance,
 			WithdrawingMoney,
-			ChangingPin
+			ChangingPin,
+			ConfirmWantAnotherAction
 		}
 		private MachineState curState;
 
@@ -81,7 +82,7 @@ namespace ATM_assignment
 			InitializeComponent();
 			Enter_btn.Click += (sender, eventArguments) =>
 			{
-				if (curState == (MachineState)5) curState = 0;
+				if (curState == (MachineState)6) curState = 0;
 				else curState++;
 
 				UpdateMachine();
@@ -168,7 +169,7 @@ namespace ATM_assignment
 					a4_label.Text = "";
 					b1_label.Text = "";
 					b2_label.Text = "";
-					b3_label.Text = "";
+					b3_label.Text = "Back";
 					b4_label.Text = "";
 					break;
 				case MachineState.ChangingPin:
@@ -180,6 +181,17 @@ namespace ATM_assignment
 					b1_label.Text = "";
 					b2_label.Text = "";
 					b3_label.Text = "";
+					b4_label.Text = "";
+					break;
+				case MachineState.ConfirmWantAnotherAction:
+					main_display.Text = "Do you want another action?";
+					a1_label.Text = "";
+					a2_label.Text = "";
+					a3_label.Text = "Yes";
+					a4_label.Text = "";
+					b1_label.Text = "";
+					b2_label.Text = "";
+					b3_label.Text = "No";
 					b4_label.Text = "";
 					break;
 			}
