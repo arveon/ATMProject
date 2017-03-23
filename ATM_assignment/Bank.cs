@@ -25,9 +25,9 @@ namespace ATM_assignment
 		{
 			AccountList = new List<BankAccount>();
 
-			AccountList.Add(new BankAccount(111111, 100, 0000));
-			AccountList.Add(new BankAccount(222222, 200, 1234));
-			AccountList.Add(new BankAccount(333333, 1400, 1111));
+			AccountList.Add(new BankAccount(111111, 100, 1111));
+			AccountList.Add(new BankAccount(222222, 200, 2222));
+			AccountList.Add(new BankAccount(333333, 1400, 3333));
 		}
 
 		//custom constructor allows to provide a list of accounts to be used
@@ -45,6 +45,7 @@ namespace ATM_assignment
 			{
 				if (acc.AccountNumber == accountNumber)
 				{
+					Console.WriteLine(attemptedPin);
 					result = acc.CheckPin(attemptedPin);
 					break;
 				}

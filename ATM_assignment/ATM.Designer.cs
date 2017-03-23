@@ -33,6 +33,7 @@
 			this.Clear_btn = new System.Windows.Forms.Button();
 			this.Enter_btn = new System.Windows.Forms.Button();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.NumberLabel = new System.Windows.Forms.Label();
 			this.main_display = new System.Windows.Forms.Label();
 			this.b4_label = new System.Windows.Forms.Label();
 			this.b3_label = new System.Windows.Forms.Label();
@@ -78,7 +79,6 @@
 			this.Clear_btn.TabIndex = 1;
 			this.Clear_btn.Text = "CLEAR";
 			this.Clear_btn.UseVisualStyleBackColor = false;
-			this.Clear_btn.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// Enter_btn
 			// 
@@ -89,12 +89,12 @@
 			this.Enter_btn.TabIndex = 2;
 			this.Enter_btn.Text = "ENTER";
 			this.Enter_btn.UseVisualStyleBackColor = false;
-			this.Enter_btn.Click += new System.EventHandler(this.button2_Click);
 			// 
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.Color.PaleTurquoise;
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.panel1.Controls.Add(this.NumberLabel);
 			this.panel1.Controls.Add(this.main_display);
 			this.panel1.Controls.Add(this.b4_label);
 			this.panel1.Controls.Add(this.b3_label);
@@ -108,7 +108,16 @@
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(245, 214);
 			this.panel1.TabIndex = 4;
-			this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+			// 
+			// NumberLabel
+			// 
+			this.NumberLabel.AutoSize = true;
+			this.NumberLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.NumberLabel.Location = new System.Drawing.Point(67, 92);
+			this.NumberLabel.Name = "NumberLabel";
+			this.NumberLabel.Size = new System.Drawing.Size(102, 31);
+			this.NumberLabel.TabIndex = 9;
+			this.NumberLabel.Text = "_ _ _ _";
 			// 
 			// main_display
 			// 
@@ -124,7 +133,7 @@
 			// 
 			this.b4_label.AutoSize = true;
 			this.b4_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.b4_label.Location = new System.Drawing.Point(187, 174);
+			this.b4_label.Location = new System.Drawing.Point(169, 178);
 			this.b4_label.Name = "b4_label";
 			this.b4_label.Size = new System.Drawing.Size(0, 20);
 			this.b4_label.TabIndex = 7;
@@ -133,7 +142,7 @@
 			// 
 			this.b3_label.AutoSize = true;
 			this.b3_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.b3_label.Location = new System.Drawing.Point(187, 133);
+			this.b3_label.Location = new System.Drawing.Point(169, 133);
 			this.b3_label.Name = "b3_label";
 			this.b3_label.Size = new System.Drawing.Size(0, 20);
 			this.b3_label.TabIndex = 6;
@@ -142,7 +151,7 @@
 			// 
 			this.b2_label.AutoSize = true;
 			this.b2_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.b2_label.Location = new System.Drawing.Point(187, 92);
+			this.b2_label.Location = new System.Drawing.Point(169, 92);
 			this.b2_label.Name = "b2_label";
 			this.b2_label.Size = new System.Drawing.Size(0, 20);
 			this.b2_label.TabIndex = 5;
@@ -151,7 +160,7 @@
 			// 
 			this.b1_label.AutoSize = true;
 			this.b1_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.b1_label.Location = new System.Drawing.Point(187, 48);
+			this.b1_label.Location = new System.Drawing.Point(169, 50);
 			this.b1_label.Name = "b1_label";
 			this.b1_label.Size = new System.Drawing.Size(0, 20);
 			this.b1_label.TabIndex = 4;
@@ -182,7 +191,6 @@
 			this.a2_label.Name = "a2_label";
 			this.a2_label.Size = new System.Drawing.Size(0, 20);
 			this.a2_label.TabIndex = 1;
-			this.a2_label.Click += new System.EventHandler(this.label2_Click);
 			// 
 			// a1_label
 			// 
@@ -218,6 +226,7 @@
 			this.SideB4_btn.Size = new System.Drawing.Size(33, 26);
 			this.SideB4_btn.TabIndex = 11;
 			this.SideB4_btn.UseVisualStyleBackColor = false;
+			this.SideB4_btn.Click += new System.EventHandler(this.SideB4_btn_Click);
 			// 
 			// SideB1_btn
 			// 
@@ -231,6 +240,7 @@
 			this.SideB1_btn.Size = new System.Drawing.Size(33, 26);
 			this.SideB1_btn.TabIndex = 8;
 			this.SideB1_btn.UseVisualStyleBackColor = false;
+			this.SideB1_btn.Click += new System.EventHandler(this.SideB1_btn_Click);
 			// 
 			// SideB3_btn
 			// 
@@ -244,6 +254,7 @@
 			this.SideB3_btn.Size = new System.Drawing.Size(33, 26);
 			this.SideB3_btn.TabIndex = 10;
 			this.SideB3_btn.UseVisualStyleBackColor = false;
+			this.SideB3_btn.Click += new System.EventHandler(this.SideB3_btn_Click);
 			// 
 			// SideB2_btn
 			// 
@@ -257,6 +268,7 @@
 			this.SideB2_btn.Size = new System.Drawing.Size(33, 26);
 			this.SideB2_btn.TabIndex = 9;
 			this.SideB2_btn.UseVisualStyleBackColor = false;
+			this.SideB2_btn.Click += new System.EventHandler(this.SideB2_btn_Click);
 			// 
 			// panel3
 			// 
@@ -296,6 +308,7 @@
 			this.SideA3_btn.Size = new System.Drawing.Size(33, 26);
 			this.SideA3_btn.TabIndex = 2;
 			this.SideA3_btn.UseVisualStyleBackColor = false;
+			this.SideA3_btn.Click += new System.EventHandler(this.SideA3_btn_Click);
 			// 
 			// SideA2_btn
 			// 
@@ -309,6 +322,7 @@
 			this.SideA2_btn.Size = new System.Drawing.Size(33, 26);
 			this.SideA2_btn.TabIndex = 1;
 			this.SideA2_btn.UseVisualStyleBackColor = false;
+			this.SideA2_btn.Click += new System.EventHandler(this.SideA2_btn_Click);
 			// 
 			// SideA1_btn
 			// 
@@ -322,6 +336,7 @@
 			this.SideA1_btn.Size = new System.Drawing.Size(33, 26);
 			this.SideA1_btn.TabIndex = 0;
 			this.SideA1_btn.UseVisualStyleBackColor = false;
+			this.SideA1_btn.Click += new System.EventHandler(this.SideA1_btn_Click);
 			// 
 			// BankAccounts
 			// 
@@ -379,5 +394,6 @@
         private System.Windows.Forms.Label a2_label;
         private System.Windows.Forms.Label a1_label;
         private System.Windows.Forms.ListBox BankAccounts;
+		private System.Windows.Forms.Label NumberLabel;
 	}
 }

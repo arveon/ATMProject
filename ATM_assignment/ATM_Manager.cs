@@ -13,6 +13,7 @@ namespace ATM_assignment
 {
 	public partial class ATM_Manager : Form
 	{
+		public static Semaphore threadController = new Semaphore(0,1);
 		private int numOfATMAvailable;
 
 		Bank bank;
@@ -34,11 +35,14 @@ namespace ATM_assignment
 			
 			AvailableATMNumber.Text = numOfATMAvailable.ToString();
 			BankAccounts.DataSource = bank.getAccounts();//listbox on form showing accounts and balances
+			this.FormClosing += new FormClosingEventHandler(exit);
 		}
 
 
 		public void exit(object sender, EventArgs eventArgs)
 		{
+			foreach(Thread tmp in ATMs)
+				tmp.Abort();
 			Application.Exit();
 		}
 

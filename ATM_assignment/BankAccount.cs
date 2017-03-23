@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace ATM_assignment
 {
@@ -28,8 +29,9 @@ namespace ATM_assignment
 		{
 			Balance = newBalance;
 		}
-
-
+		Semaphore semaphone = new Semaphore(1, 1);
+		
+		
 		//this method of changing the balance will completely eliminate the racing condition between the ATMs
 		public bool withdrawMoney(int toBeWithdrawn)
 		{
@@ -37,6 +39,11 @@ namespace ATM_assignment
 			// AND taking out that much money will not run the person over the withdrawal limit, 
 			//withdraws and returns true
 			//otherwise enoughMoneyAvailable stays false and the money is not withdrawn
+			//semaphorel.waitone() 
+			//new variable = current balance
+			//sleep(500)
+			//setBalance(variable-moneyYouwanttoTake)
+			//semaphone.release()
 			bool enoughMoneyAvailable = false;
 			if(Balance > toBeWithdrawn && WithdrawnToday + toBeWithdrawn <= withdrawalLimit)
 			{
@@ -44,7 +51,7 @@ namespace ATM_assignment
 				Balance -= toBeWithdrawn;
 				enoughMoneyAvailable = true;
 			}
-
+			
 			return enoughMoneyAvailable;
 		}
 
