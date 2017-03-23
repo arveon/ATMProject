@@ -93,6 +93,18 @@ namespace ATM_assignment
 			return result;
 		}
 
+		public int getAccountBalance(int accountNumber)
+		{
+			foreach(BankAccount acc in AccountList)
+			{
+				if(acc.AccountNumber == accountNumber)
+				{
+					return acc.Balance;
+				}
+			}
+			return -1;
+		}
+
 		//will only return all bank account numbers and their balances as a list of strings
 		public List<string> getAccounts()
 		{

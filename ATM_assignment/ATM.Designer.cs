@@ -54,6 +54,7 @@
 			this.SideA2_btn = new System.Windows.Forms.Button();
 			this.SideA1_btn = new System.Windows.Forms.Button();
 			this.BankAccounts = new System.Windows.Forms.ListBox();
+			this.InsertCardButton = new System.Windows.Forms.Button();
 			this.panel1.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.panel3.SuspendLayout();
@@ -106,14 +107,14 @@
 			this.panel1.Controls.Add(this.a1_label);
 			this.panel1.Location = new System.Drawing.Point(70, 34);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(245, 214);
+			this.panel1.Size = new System.Drawing.Size(276, 214);
 			this.panel1.TabIndex = 4;
 			// 
 			// NumberLabel
 			// 
 			this.NumberLabel.AutoSize = true;
 			this.NumberLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.NumberLabel.Location = new System.Drawing.Point(67, 92);
+			this.NumberLabel.Location = new System.Drawing.Point(93, 92);
 			this.NumberLabel.Name = "NumberLabel";
 			this.NumberLabel.Size = new System.Drawing.Size(102, 31);
 			this.NumberLabel.TabIndex = 9;
@@ -123,7 +124,7 @@
 			// 
 			this.main_display.AutoSize = true;
 			this.main_display.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.main_display.Location = new System.Drawing.Point(5, 0);
+			this.main_display.Location = new System.Drawing.Point(3, 0);
 			this.main_display.Name = "main_display";
 			this.main_display.Size = new System.Drawing.Size(233, 25);
 			this.main_display.TabIndex = 8;
@@ -209,7 +210,7 @@
 			this.panel2.Controls.Add(this.SideB1_btn);
 			this.panel2.Controls.Add(this.SideB3_btn);
 			this.panel2.Controls.Add(this.SideB2_btn);
-			this.panel2.Location = new System.Drawing.Point(321, 34);
+			this.panel2.Location = new System.Drawing.Point(352, 34);
 			this.panel2.Name = "panel2";
 			this.panel2.Size = new System.Drawing.Size(33, 214);
 			this.panel2.TabIndex = 5;
@@ -346,11 +347,22 @@
 			this.BankAccounts.Size = new System.Drawing.Size(123, 147);
 			this.BankAccounts.TabIndex = 7;
 			// 
+			// InsertCardButton
+			// 
+			this.InsertCardButton.Location = new System.Drawing.Point(321, 448);
+			this.InsertCardButton.Name = "InsertCardButton";
+			this.InsertCardButton.Size = new System.Drawing.Size(123, 36);
+			this.InsertCardButton.TabIndex = 8;
+			this.InsertCardButton.Text = "Insert the card";
+			this.InsertCardButton.UseVisualStyleBackColor = true;
+			this.InsertCardButton.Click += new System.EventHandler(this.InsertCardButton_Click);
+			// 
 			// ATM
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(480, 496);
+			this.Controls.Add(this.InsertCardButton);
 			this.Controls.Add(this.BankAccounts);
 			this.Controls.Add(this.panel3);
 			this.Controls.Add(this.panel2);
@@ -395,5 +407,6 @@
         private System.Windows.Forms.Label a1_label;
         private System.Windows.Forms.ListBox BankAccounts;
 		private System.Windows.Forms.Label NumberLabel;
+		private System.Windows.Forms.Button InsertCardButton;
 	}
 }

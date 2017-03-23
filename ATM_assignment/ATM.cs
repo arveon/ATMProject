@@ -22,6 +22,7 @@ namespace ATM_assignment
 			ShowingBalance,
 			WithdrawingMoney,
 			WithdrawingCustomAmount,
+			InsufficientFunds,
 			ChangingPinOldPin,
 			ChangingPinNewPin,
 			ConfirmWantAnotherAction,
@@ -47,6 +48,7 @@ namespace ATM_assignment
 		public ATM(Bank bank, updateAccountDisplay updater)
 		{
 			temp_message_timer.Elapsed += new System.Timers.ElapsedEventHandler(InvalidInputTimer);
+			temp_message_timer.AutoReset = true;
 			curAccNum = "";
 			curState = MachineState.WaitingForCard;
 
@@ -67,7 +69,7 @@ namespace ATM_assignment
 					UpdateMachine();
 				};
 
-			main_display.TextAlign = ContentAlignment.MiddleLeft;
+			main_display.TextAlign = ContentAlignment.MiddleCenter;
 			a1_label.TextAlign = ContentAlignment.MiddleLeft;
 			a2_label.TextAlign = ContentAlignment.MiddleLeft;
 			a3_label.TextAlign = ContentAlignment.MiddleLeft;
@@ -101,11 +103,6 @@ namespace ATM_assignment
 		{
 			switch(curState)
 			{
-				case MachineState.WaitingForCard:
-					curState = MachineState.WaitingForPin;
-					curAccNum = ((string)BankAccounts.SelectedItem).Substring(0,6);
-					Console.WriteLine(curAccNum);
-					break;
 				case MachineState.WaitingForPin:
 					
 					if (numberEntered.Length == 4 && bank.CheckPin(Convert.ToInt32(curAccNum), Convert.ToInt32(numberEntered)))
@@ -120,8 +117,12 @@ namespace ATM_assignment
 					numberEntered = "";
 					break;
 				case MachineState.WithdrawingCustomAmount:
+					if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(numberEntered), Convert.ToInt32(curAccNum)))
+						curState = MachineState.ConfirmWantAnotherAction;
+					else
+						curState = MachineState.InsufficientFunds;
 					numberEntered = "";
-					curState = MachineState.MainMenu;
+					
 					break;
 				case MachineState.ChangingPinNewPin:
 					if(numberEntered.Length == 4)
@@ -136,7 +137,6 @@ namespace ATM_assignment
 					numberEntered = "";
 					break;
 			}
-
 			UpdateMachine();
 		}
 
@@ -153,6 +153,7 @@ namespace ATM_assignment
 		private void UpdateMachine()
 		{
 			int count = 0;
+			BankAccounts.DataSource = bank.getAccounts();
 			switch(curState)
 			{
 				case MachineState.WaitingForCard:
@@ -203,13 +204,13 @@ namespace ATM_assignment
 					b1_label.Text = "Withdraw\nmoney";
 					break;
 				case MachineState.WithdrawingMoney:
-					main_display.Text = bank.getAccounts().First();
+					main_display.Text = "Available balance: £" + bank.getAccountBalance(Convert.ToInt32(curAccNum)).ToString();
 					NumberLabel.Text = "";
-					a1_label.Text = "5";
-					a2_label.Text = "20";
-					a3_label.Text = "100";
-					b1_label.Text = "10";
-					b2_label.Text = "50";
+					a1_label.Text = "10";
+					a2_label.Text = "40";
+					a3_label.Text = "500";
+					b1_label.Text = "20";
+					b2_label.Text = "100";
 					b3_label.Text = "Custom";
 					b4_label.Text = "Back";
 					break;
@@ -221,12 +222,12 @@ namespace ATM_assignment
 					a4_label.Text = "";
 					b1_label.Text = "";
 					b2_label.Text = "";
-					b3_label.Text = "";
+					b3_label.Text = "Back";
 					b4_label.Text = "";
 					NumberLabel.Text = numberEntered;
 					break;
 				case MachineState.ShowingBalance:
-					main_display.Text = bank.getAccounts().First();
+					main_display.Text = "AccountNumber: " + curAccNum + "\nAvailable balance: £" + bank.getAccountBalance(Convert.ToInt32(curAccNum)).ToString();
 					NumberLabel.Text = "";
 					a1_label.Text = "";
 					a2_label.Text = "";
@@ -301,7 +302,7 @@ namespace ATM_assignment
 					temp_message_timer.Enabled = true;
 					break;
 				case MachineState.EndMessage:
-					main_display.Text = "Thank you for using our ATM";
+					main_display.Text = "Thank you for\nusing our ATM";
 					NumberLabel.Text = "";
 					a1_label.Text = "";
 					a2_label.Text = "";
@@ -316,15 +317,26 @@ namespace ATM_assignment
 					curState = MachineState.WaitingForCard;
 					temp_message_timer.Enabled = true;
 					break;
+				case MachineState.InsufficientFunds:
+					main_display.Text = "Insufficient funds!";
+					a1_label.Text = "";
+					a2_label.Text = "";
+					a3_label.Text = "";
+					a4_label.Text = "";
+					b1_label.Text = "";
+					b2_label.Text = "";
+					b3_label.Text = "";
+					b4_label.Text = "";
+					numberEntered = "";
+					curState = MachineState.ConfirmWantAnotherAction;
+					temp_message_timer.Enabled = true;
+					break;
 			}
 		}
-
 
 		private void InvalidInputTimer(object sender, EventArgs e)
 		{
 			((System.Timers.Timer)sender).Enabled = false;
-			
-			
 			this.Invoke(new MethodInvoker(delegate {
 				UpdateMachine();
 			}));
@@ -370,6 +382,12 @@ namespace ATM_assignment
 				case MachineState.MainMenu:
 					curState = MachineState.ShowingBalance;
 					break;
+				case MachineState.WithdrawingMoney:
+					if(bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(a1_label.Text), Convert.ToInt32(curAccNum)))
+						curState = MachineState.ConfirmWantAnotherAction;
+					else
+						curState = MachineState.InsufficientFunds;
+					break;
 			}
 			UpdateMachine();
 		}
@@ -381,13 +399,32 @@ namespace ATM_assignment
 				case MachineState.MainMenu:
 					curState = MachineState.ChangingPinOldPin;
 					break;
+				case MachineState.WithdrawingMoney:
+					if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(a2_label.Text), Convert.ToInt32(curAccNum)))
+						curState = MachineState.ConfirmWantAnotherAction;
+					else
+						curState = MachineState.InsufficientFunds;
+					break;
 			}
 			UpdateMachine();
 		}
 
 		private void SideA3_btn_Click(object sender, EventArgs e)
 		{
-
+			if (curState == MachineState.WithdrawingMoney)
+			{
+				if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(a3_label.Text), Convert.ToInt32(curAccNum)))
+				{
+					curState = MachineState.ConfirmWantAnotherAction;
+				}
+				else
+					curState = MachineState.InsufficientFunds;
+			}
+			else if(curState == MachineState.ConfirmWantAnotherAction)
+			{
+				curState = MachineState.MainMenu;
+			}
+			UpdateMachine();
 		}
 
 		private void SideB1_btn_Click(object sender, EventArgs e)
@@ -397,13 +434,26 @@ namespace ATM_assignment
 				case MachineState.MainMenu:
 					curState = MachineState.WithdrawingMoney;
 					break;
+				case MachineState.WithdrawingMoney:
+					if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(b1_label.Text), Convert.ToInt32(curAccNum)))
+						curState = MachineState.ConfirmWantAnotherAction;
+					else
+						curState = MachineState.InsufficientFunds;
+					break;
 			}
 			UpdateMachine();
 		}
 
 		private void SideB2_btn_Click(object sender, EventArgs e)
 		{
-
+			if(curState == MachineState.WithdrawingMoney)
+			{
+				if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(b2_label.Text), Convert.ToInt32(curAccNum)))
+					curState = MachineState.ConfirmWantAnotherAction;
+				else
+					curState = MachineState.InsufficientFunds;
+			}
+			UpdateMachine();
 		}
 
 		private void SideB3_btn_Click(object sender, EventArgs e)
@@ -421,6 +471,9 @@ namespace ATM_assignment
 				case MachineState.WithdrawingMoney:
 					curState = MachineState.WithdrawingCustomAmount;
 					break;
+				case MachineState.ConfirmWantAnotherAction:
+					curState = MachineState.EndMessage;
+					break;
 			}
 			UpdateMachine();
 		}
@@ -429,6 +482,16 @@ namespace ATM_assignment
 		{
 			if (curState == MachineState.WithdrawingMoney)
 				curState = MachineState.MainMenu;
+			UpdateMachine();
+		}
+
+		private void InsertCardButton_Click(object sender, EventArgs e)
+		{
+			if (curState == MachineState.WaitingForCard)
+			{
+				curState = MachineState.WaitingForPin;
+				curAccNum = ((string)BankAccounts.SelectedItem).Substring(0, 6);
+			}
 			UpdateMachine();
 		}
 
