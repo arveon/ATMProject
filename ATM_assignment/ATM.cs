@@ -10,12 +10,13 @@ using System.Windows.Forms;
 
 namespace ATM_assignment
 {
-	public delegate void UpdateLog(string message);
+	public delegate void UpdateLog(string message);//a callback method to update logs
 	public partial class ATM : Form
 	{
-		private bool isBroken;
+		private bool isBroken;//true if machine doesn't have data race fix applied
 
-		System.Timers.Timer temp_message_timer = new System.Timers.Timer(1000);
+		System.Timers.Timer temp_message_timer = new System.Timers.Timer(1000);//used for timed messages
+		//enumeration of states the machine can be in
 		enum MachineState
 		{
 			WaitingForCard,
@@ -34,19 +35,23 @@ namespace ATM_assignment
 		}
 		private MachineState curState;
 
+		//temporary values
 		string numberEntered;
 		string curAccNum;
 
+		//callback method delegate instance
 		UpdateLog logUpdater;
 
+		//list of numpad buttons
 		List<Button> numpad;
-
-		Bank bank;
-
-		private Point offsetPoint = new Point(20,270);
+		//numpad related variables
+		private Point offsetPoint = new Point(20, 270);
 		private int numpadMargin = 5;
-		private Size numpadButtonDimension = new Size(50,50);
+		private Size numpadButtonDimension = new Size(50, 50);
 
+		//instance of a bank in use
+		Bank bank;
+		//a constructor to initialise all the required values
 		public ATM(Bank bank, UpdateLog logger, bool isBroken)
 		{
 			temp_message_timer.Elapsed += new System.Timers.ElapsedEventHandler(InvalidInputTimer);
@@ -62,11 +67,12 @@ namespace ATM_assignment
 
 			CreateKeypadButtons();
 			InitializeComponent();
+
 			BankAccounts.DataSource = bank.getAccounts();
 
 			Enter_btn.Click += new EventHandler(EnterClicked);
 			Clear_btn.Click += (sender, eventArguments) =>
-				{
+				{//remove the last character entered
 					if(numberEntered.Length > 0)
 						numberEntered = numberEntered.Substring(0, numberEntered.Length -1);
 					UpdateMachine();
@@ -90,15 +96,18 @@ namespace ATM_assignment
 					logUpdater("Machine terminated");
 				};
 
-
-			
+			//set the title of the form depending on whether the machine is broken or not
+			this.Text = (isBroken) ? "BrokenATM" : "FixedATM";
 		}
 
+		//method handles the key presses of keypad buttons
 		private void KeypadButtonClicked(object sender, EventArgs args)
 		{
+			//if user is entering or changing pin, capture keypad presses
 			if(curState == MachineState.ChangingPinOldPin || curState == MachineState.ChangingPinNewPin 
 				|| curState == MachineState.WaitingForPin || curState == MachineState.WithdrawingCustomAmount)
 			{
+				//only capture input if not withdrawing money (thus - changing/entering pin) and less than 4 presses recorded OR withdrawing money and less than 10 presses recorded
 				if ((numberEntered.Length < 4 && curState != MachineState.WithdrawingCustomAmount) || (curState == MachineState.WithdrawingCustomAmount && numberEntered.Length < 10))
 				{
 					numberEntered += ((Button)sender).Text;
@@ -109,18 +118,20 @@ namespace ATM_assignment
 			UpdateMachine();
 		}
 
+		//method handles the enter button clicks
 		private void EnterClicked(object sender, EventArgs e)
 		{
 			switch(curState)
 			{
 				case MachineState.WaitingForPin:
+					//if machine is on waiting for pin state and pin length is 4 then check if the pin is correct or not. log person in if is correct. update log
 					if (numberEntered.Length == 4 && bank.CheckPin(Convert.ToInt32(curAccNum), Convert.ToInt32(numberEntered)))
 					{
 						curState = MachineState.MainMenu;
 						logUpdater(curAccNum + " card PIN entered correctly");
 					}
 					else
-					{
+					{//otherwise update log and go to error state
 						curState = MachineState.InvalidPin;
 						logUpdater(curAccNum + " card PIN entered incorrectly");
 					}
@@ -128,21 +139,21 @@ namespace ATM_assignment
 					break;
 				case MachineState.WithdrawingCustomAmount:
 					if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(numberEntered), Convert.ToInt32(curAccNum), isBroken))
-					{
+					{//if sucessfully withdrawn money from bank account, ask user if he wants another action, update log
 						curState = MachineState.ConfirmWantAnotherAction;
 						logUpdater(curAccNum + " took £" + numberEntered + " off the account. New balance: " + bank.getAccountBalance(Convert.ToInt32(curAccNum)));
 
 					}
 					else
-					{
+					{//otherwise, go to error state, update log
 						curState = MachineState.InsufficientFunds;
 						logUpdater(curAccNum + " failed to withdraw £" + numberEntered + " off the account. Insufficient funds");
 
 					}
 					numberEntered = "";
-					
 					break;
 				case MachineState.ChangingPinNewPin:
+					//if the pin length is 4, set the pin to new pin, ask if user wants another action, otherwise go to invalid input state
 					if (numberEntered.Length == 4)
 					{
 						bank.SetPin(Convert.ToInt32(curAccNum), Convert.ToInt32(numberEntered));
@@ -151,12 +162,12 @@ namespace ATM_assignment
 					}
 					else
 						curState = MachineState.InvalidInput;
-					
 					numberEntered = "";
 					break;
 				case MachineState.ChangingPinOldPin:
-					
-					if(numberEntered.Length > 0)
+					//if old pin input is not empty, check if the pin matches the current account pin and if it does
+					//switch to state that asks user for the new pin. otherwise go to error state and log
+					if(numberEntered.Length == 0)
 						if (bank.CheckPin(Convert.ToInt32(curAccNum), Convert.ToInt32(numberEntered)))
 						{
 							curState = MachineState.ChangingPinNewPin;
@@ -172,8 +183,10 @@ namespace ATM_assignment
 			UpdateMachine();
 		}
 
+		//the handler for cancel button clicks
         private void Cancel_btn_Click(object sender, EventArgs e)
         {
+			//if card inserted (ie curAccNum not empty), 'eject card'
 			if (curAccNum != "")
 			{
 				curState = MachineState.EndMessage;
@@ -183,10 +196,12 @@ namespace ATM_assignment
 			}
         }
 
+		//method used to update all the labels depending on the state of the machine
 		private void UpdateMachine()
 		{
 			int count = 0;
-			BankAccounts.DataSource = bank.getAccounts();
+			BankAccounts.DataSource = bank.getAccounts();//update the account data on bottom right
+			//depending on the state of machine, set all the labels to the corresponding menu options
 			switch(curState)
 			{
 				case MachineState.WaitingForCard:
@@ -205,6 +220,7 @@ namespace ATM_assignment
 					main_display.Text = "Please, enter your pin:";
 					NumberLabel.Text = "";
 					count = numberEntered.Length;
+					//replace all the numbers of pin with X characters
 					for (int i = 0; i < 4; i++)
 					{
 						if (count != 0)
@@ -276,6 +292,8 @@ namespace ATM_assignment
 					main_display.Text = "Enter your old pin:";
 					NumberLabel.Text = "";
 					count = numberEntered.Length;
+					//replace all the numbers of pin with X characters
+
 					for (int i = 0; i < 4; i++)
 					{
 						if (count != 0)
@@ -300,6 +318,8 @@ namespace ATM_assignment
 					main_display.Text = "Enter your new pin:";
 					NumberLabel.Text = "";
 					count = numberEntered.Length;
+					//replace all the numbers of pin with X characters
+
 					for (int i = 0; i < 4; i++)
 					{
 						if (count != 0)
@@ -385,14 +405,15 @@ namespace ATM_assignment
 			}
 		}
 
+		//method happens when the invalid message timer elapses
 		private void InvalidInputTimer(object sender, EventArgs e)
 		{
-			//required in case user closes the atm before the timer elapses
+			//try required in case user closes the atm before the timer elapses
 			try
 			{
 				((System.Timers.Timer)sender).Enabled = false;
 				this.Invoke(new MethodInvoker(delegate {
-					UpdateMachine();
+					UpdateMachine();//just updates the labels
 				}));
 			}
 			catch (Exception)
@@ -401,6 +422,7 @@ namespace ATM_assignment
 			}
 		}
 
+		//method creates all 10 keypad buttons
 		private void CreateKeypadButtons()
 		{
 			//create keypad buttons
@@ -411,20 +433,20 @@ namespace ATM_assignment
 				for (int j = 0; j < 3; j++)
 				{
 					Button button = new Button();
-
 					button.Click += new EventHandler(KeypadButtonClicked);
-
 					Controls.Add(button);
 
+					//numbers 1-9 should be in a square pattern
 					if (buttonCounter < 10)
 					{
 						button.Bounds = new Rectangle(new Point(offsetPoint.X + (j * (numpadButtonDimension.Width + numpadMargin)), offsetPoint.Y + (i * (numpadButtonDimension.Height + numpadMargin))), numpadButtonDimension);
 						button.Text = (buttonCounter++).ToString();
 					}
 					else if (buttonCounter == 10)
-					{
+					{//number 0 should be in the middle of its row
 						button.Bounds = new Rectangle(new Point(offsetPoint.X + ((j + 1) * (numpadButtonDimension.Width + numpadMargin)), offsetPoint.Y + (i * (numpadButtonDimension.Height + numpadMargin))), numpadButtonDimension);
 						button.Text = "0";
+						//required to break out of loop
 						j = 5;
 						i = 4;
 					}
@@ -433,14 +455,17 @@ namespace ATM_assignment
 			}
 		}
 
+		//method handles top-left menu button clicks
 		private void SideA1_btn_Click(object sender, EventArgs e)
 		{
+			//switch to an appropriate state depending on the state application is currently in
 			switch(curState)
 			{
 				case MachineState.MainMenu:
 					curState = MachineState.ShowingBalance;
 					break;
 				case MachineState.WithdrawingMoney:
+					//if trying to withdraw a set amount of money, do action and tell if it was sucessful or not
 					if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(a1_label.Text), Convert.ToInt32(curAccNum), isBroken))
 					{
 						curState = MachineState.ConfirmWantAnotherAction;
@@ -456,14 +481,17 @@ namespace ATM_assignment
 			UpdateMachine();
 		}
 
+		//method handles second-left menu button click
 		private void SideA2_btn_Click(object sender, EventArgs e)
 		{
+			//switch to an appropriate state depending on the state application is currently in
 			switch (curState)
 			{
 				case MachineState.MainMenu:
 					curState = MachineState.ChangingPinOldPin;
 					break;
 				case MachineState.WithdrawingMoney:
+					//if trying to withdraw a set amount of money, do action and tell if it was sucessful or not
 					if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(a2_label.Text), Convert.ToInt32(curAccNum), isBroken))
 					{
 						curState = MachineState.ConfirmWantAnotherAction;
@@ -479,10 +507,12 @@ namespace ATM_assignment
 			UpdateMachine();
 		}
 
+		//method handles third-left menu button click
 		private void SideA3_btn_Click(object sender, EventArgs e)
 		{
 			if (curState == MachineState.WithdrawingMoney)
 			{
+				//if trying to withdraw a set amount of money, do action and tell if it was sucessful or not
 				if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(a3_label.Text), Convert.ToInt32(curAccNum), isBroken))
 				{
 					curState = MachineState.ConfirmWantAnotherAction;
@@ -501,6 +531,7 @@ namespace ATM_assignment
 			UpdateMachine();
 		}
 
+		//method handles top-right menu button click
 		private void SideB1_btn_Click(object sender, EventArgs e)
 		{
 			switch (curState)
@@ -509,6 +540,8 @@ namespace ATM_assignment
 					curState = MachineState.WithdrawingMoney;
 					break;
 				case MachineState.WithdrawingMoney:
+					//if trying to withdraw a set amount of money, do action and tell if it was sucessful or not
+
 					if (bank.DoAction(ATMAction.WithdrawMoney, Convert.ToInt32(b1_label.Text), Convert.ToInt32(curAccNum), isBroken))
 					{
 						curState = MachineState.ConfirmWantAnotherAction;
@@ -524,6 +557,7 @@ namespace ATM_assignment
 			UpdateMachine();
 		}
 
+		//method handles second-right menu button click
 		private void SideB2_btn_Click(object sender, EventArgs e)
 		{
 			if(curState == MachineState.WithdrawingMoney)
@@ -543,6 +577,8 @@ namespace ATM_assignment
 			UpdateMachine();
 		}
 
+		//method handles third-right menu button click
+		//mostly serves as Back or No button
 		private void SideB3_btn_Click(object sender, EventArgs e)
 		{
 			switch(curState)
@@ -566,6 +602,7 @@ namespace ATM_assignment
 			UpdateMachine();
 		}
 
+		//method handles fourth-right menu button click
 		private void SideB4_btn_Click(object sender, EventArgs e)
 		{
 			if (curState == MachineState.WithdrawingMoney)
@@ -573,10 +610,13 @@ namespace ATM_assignment
 			UpdateMachine();
 		}
 
+		//method handles the InsertBUtton click
+		//represents the insertion of a card
 		private void InsertCardButton_Click(object sender, EventArgs e)
 		{
 			if (curState == MachineState.WaitingForCard)
 			{
+				//selects the acount currently selected in ListBox and requests pin for it
 				curState = MachineState.WaitingForPin;
 				curAccNum = ((string)BankAccounts.SelectedItem).Substring(0, 6);
 				logUpdater(((string)BankAccounts.SelectedItem).Substring(0, 6) + " card inserted");

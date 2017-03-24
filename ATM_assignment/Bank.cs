@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ATM_assignment
 {
+	//types of actions the user can perform on the bank acount through atm
 	public enum ATMAction
 	{
 		WithdrawMoney,
-		InsertMoney,
 		ChangePin
 	}
 
@@ -18,7 +18,7 @@ namespace ATM_assignment
 	//allows managing existing bank accounts
 	public class Bank
 	{
-		public List<BankAccount> AccountList { get; private set; }
+		public List<BankAccount> AccountList { get; private set; }//list of accounts in database
 
 		//default constructor creates three default bank accounts with different acc.numbers, balances and card PINs
 		public Bank()
@@ -45,7 +45,6 @@ namespace ATM_assignment
 			{
 				if (acc.AccountNumber == accountNumber)
 				{
-					Console.WriteLine(attemptedPin);
 					result = acc.CheckPin(attemptedPin);
 					break;
 				}
@@ -53,6 +52,7 @@ namespace ATM_assignment
 			return result;
 		}
 
+		//the method used to change the pin of the account with a given account number to newPin
 		public bool SetPin(int accountNumber, int newPin)
 		{
 			foreach(BankAccount acc in AccountList)
@@ -66,10 +66,14 @@ namespace ATM_assignment
 			return false;
 		}
 
+		//method is used to do both withdrawing money and changing the pin
+		//action - action to perform
+		//argument - represents new pin/amount to be withdrawn
+		//isMachineBroken - represents to whether act like the race condition is allowed or like it's fixed
 		public bool DoAction(ATMAction action, int argument, int accountNumber, bool isMachineBroken)
 		{
 			bool result = false;
-
+			//find the account in the list to perform the action on
 			BankAccount curAcc = null;
 			foreach(BankAccount ac in AccountList)
 			{
@@ -79,33 +83,37 @@ namespace ATM_assignment
 					break;
 				}
 			}
-
+			//if account isn't found, return
 			if (curAcc == null)
 				return result;
 
 			switch(action)
 			{
 				case ATMAction.ChangePin:
+					//if pin is more than 4 numbers, can't hange it
 					if (argument > 9999)
 					{
 						result = false;
 						break;
 					}
-
+					//otherwise change the pin
 					curAcc.CardPin = argument;
 					result = true;
 					break;
 				case ATMAction.WithdrawMoney:
+					//if the machine that sent request isn't broken, apply semaphore fix
 					if (!isMachineBroken)
 					{
 						ATM_Manager.threadController.WaitOne();
+						//simulates the racing condition if the other ATM is used within three seconds from this one
 						int balance = curAcc.Balance;
 						System.Threading.Thread.Sleep(3000);
 						result = curAcc.setBalance(balance - argument);
+
 						//result = curAcc.withdrawMoney(argument);
 						ATM_Manager.threadController.Release();
 					}
-					else
+					else//otherwise don't apply a semaphore fix
 					{
 						int balance = curAcc.Balance;
 						System.Threading.Thread.Sleep(3000);
@@ -117,6 +125,7 @@ namespace ATM_assignment
 			return result;
 		}
 
+		//will return balance of the account with provided accountNumber, or -1 if account not found
 		public int getAccountBalance(int accountNumber)
 		{
 			foreach(BankAccount acc in AccountList)
@@ -127,17 +136,6 @@ namespace ATM_assignment
 				}
 			}
 			return -1;
-		}
-
-		public void setAccountBalance(int accountNumber, int newBalance)
-		{
-			foreach (BankAccount acc in AccountList)
-			{
-				if (acc.AccountNumber == accountNumber)
-				{
-					acc.setBalance(newBalance);
-				}
-			}
 		}
 
 		//will only return all bank account numbers and their balances as a list of strings

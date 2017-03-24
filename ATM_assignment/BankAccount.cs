@@ -33,23 +33,13 @@ namespace ATM_assignment
 				Balance = newBalance;
 				result = true;
 			}
-				
-
 			return result;
 		}		
 		
 		//this method of changing the balance will completely eliminate the racing condition between the ATMs
+		//METHOD NOT USED, USED SEMAPHORE APPROACH INSTEAD
 		public bool withdrawMoney(int toBeWithdrawn)
 		{
-			//if there is enough money on the bank account to withdraw the provided amount
-			// AND taking out that much money will not run the person over the withdrawal limit, 
-			//withdraws and returns true
-			//otherwise enoughMoneyAvailable stays false and the money is not withdrawn
-			//semaphorel.waitone() 
-			//new variable = current balance
-			//sleep(500)
-			//setBalance(variable-moneyYouwanttoTake)
-			//semaphone.release()
 			bool enoughMoneyAvailable = false;
 			if(Balance >= toBeWithdrawn)
 			{
