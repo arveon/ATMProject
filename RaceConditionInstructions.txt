@@ -1,0 +1,14 @@
+To simulate the race condition you need to follow the steps:
+1. Create two FIXED or two BROKEN machines.
+2. Insert the same card into both of them:
+	2.1. Select a bank account in the ListBox on the bottom right corner of the ATM.
+	2.2. Press "Insert a button"
+3. Enter PIN for the card correctly - 1111 for 111111, 2222 for 222222 and 3333 for 333333
+4. Press on Withdraw money menu option on both machines
+5. Select the amount to withdraw on the both machines
+	5.1. You have to select the amount to withdraw on the second machine within 3 seconds after you selected it on the first ATM.
+	5.2. Transaction takes 3 seconds.
+
+P.S. If you follow the steps and used the BROKEN machines you will see that the bank registered only the first transaction, even though the ATM confirmed that the transaction
+was successful.
+With the FIXED machines, the account balance will be updated correctly.

@@ -13,7 +13,6 @@ namespace ATM_assignment
 		ChangePin
 	}
 
-
 	//basically serves as a container for bank accounts
 	//allows managing existing bank accounts
 	public class Bank
