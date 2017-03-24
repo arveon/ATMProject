@@ -11,6 +11,7 @@ using System.Windows.Forms;
 
 namespace ATM_assignment
 {
+	//class that manages separate ATMS
 	public partial class ATM_Manager : Form
 	{
 		public static Semaphore threadController = new Semaphore(1,1);
@@ -21,11 +22,11 @@ namespace ATM_assignment
 
 		public ATM_Manager()
 		{
-			//i think it should work like that... a list of ATM threads
+			//a list of currently running ATM threads
 			ATMs = new List<Thread>();
 
 			log = new List<String>();
-			numOfATMAvailable = 4;//just a hardcoded sample value
+			numOfATMAvailable = 4;//just value to simulate real-life condition when you have only limited number of ATMs
 			bank = new Bank();//bank system that is handling all the interaction with bank accounts
 			InitializeComponent();
 			
@@ -34,7 +35,7 @@ namespace ATM_assignment
 			this.FormClosing += new FormClosingEventHandler(exit);
 		}
 
-
+		//executes when the manager window is closed, aborts all the threads and exits the application
 		public void exit(object sender, EventArgs eventArgs)
 		{
 			foreach(Thread tmp in ATMs)
@@ -42,6 +43,7 @@ namespace ATM_assignment
 			Application.Exit();
 		}
 
+		//method is used to create ATMs that don't have the racing condition eliminated
 		private void createBrokenATM(object sender, EventArgs e)
 		{
 			//if number of available atms is > 0, deduct one, update the label and create the ATM
@@ -60,6 +62,7 @@ namespace ATM_assignment
 			}
 		}
 
+		//method used to create ATMs that have the racing condition eliminated
 		private void createFixedATM(object sender, EventArgs e)
 		{
 			//if number of available atms is > 0, deduct one, update the label and create the ATM
@@ -78,6 +81,7 @@ namespace ATM_assignment
 			}
 		}
 
+		//method used to create an instance of ATM and run it
 		private void atmThread(object logger, bool isBroken)
 		{
 			ATM ATM = new ATM(bank, (UpdateLog)logger, isBroken);
@@ -90,21 +94,19 @@ namespace ATM_assignment
 				}));
 		}
 
+		//a callback method used to receive new log entries from ATMs and update logs
 		private void updateLog(string logEntry)
 		{
-			//Console.WriteLine("log entry added");
 			log.Add(DateTime.Now.ToString("hh:mm:ss") + " - " + logEntry);
-
 
 			BankAccounts.Invoke(new MethodInvoker(delegate
 				{
 					BankAccounts.DataSource = null;
 					BankAccounts.DataSource = log;
-					//BankAccounts.DataSource = log;
-					BankAccounts.Update();
 				}));
 		}
 
+		//en event handler for CreateFixedATM button
 		private void button1_Click(object sender, EventArgs e)
 		{
 			createFixedATM(sender, e);
